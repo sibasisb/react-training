@@ -10,9 +10,10 @@ const Header=(props)=>{
                 <div className="user-info">
                     <div><span className="material-icons" style={{color: "white", fontSize: "3rem"}}>account_circle</span></div>
                     <div className="user-name"><span>{props.username.toUpperCase()}</span></div>
+                    <div className="user-name"><button className="logout-button" onClick={()=>{props.handleLogout()}}>Logout</button></div>
                 </div>):
                 (<div className="user-info">
-                    <div className="user-name"><a href="http://localhost:3000/">Login</a></div>
+                    <div className="user-name"><button className="logout-button" onClick={()=>{window.location.href="http://localhost:3000/"}}>Login</button></div>
                 </div>)
                 }
 

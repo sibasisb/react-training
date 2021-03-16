@@ -64,7 +64,7 @@ const Home=({username})=>{
     return (
         <div>
             <section>
-                <h1>Welcome, {username}</h1>
+                <h1>Welcome, {username.toUpperCase()}</h1>
                 <div className="carousel-container">
                     {showSlides()}
                     <span className="prev" onClick={()=>{plusSlides(-1)}}>&#10094;</span>

@@ -16,6 +16,18 @@ class LandingComponent extends React.Component {
                 password:""
             }
         }
+        this.userLogin=this.userLogin.bind(this)
+        this.handleLogout=this.handleLogout.bind(this)
+    }
+
+    handleLogout(){
+        this.setState({
+            isLoggedIn:false,
+            user:{
+                username:"",
+                password:""
+            }
+        })
     }
 
     userLogin(newUser){
@@ -28,7 +40,7 @@ class LandingComponent extends React.Component {
     render(){
         return (
             <>
-            <Header isLoggedIn={this.state.isLoggedIn} username={this.state.user.username}/>
+            <Header isLoggedIn={this.state.isLoggedIn} username={this.state.user.username} handleLogout={this.handleLogout}/>
             {
                 !this.state.isLoggedIn && (
                     <LoginComponent onLogin={(newUser)=>{this.userLogin(newUser)}} />
