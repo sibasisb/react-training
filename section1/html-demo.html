@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href="styles.css" rel="stylesheet" type="text/css"/>
+    <title>Welcome to dev</title>
+</head>
+<body>
+    <header>
+        <div class="header-flex">
+            <div class="user-info">
+                <div><span class="material-icons" style="color: white; font-size: 3rem;">account_circle</span></div>
+                <div class="user-name"><span>Quickpunch</span></div>
+            </div>
+            <div class="logo">
+                <a href="#">
+                    <img src="https://th.bing.com/th/id/OIP.tbBQtTHmFj9B-1836hLRHAHaHa?pid=ImgDet&rs=1" alt="Brand logo" width="36" height="36"/>
+                    <span style="padding-left:10px">Vindigo</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <section>
+        <h1>Welcome here</h1>
+        <div class="carousel-container">
+            <div class="myslide">
+                <img src="https://images.unsplash.com/photo-1441123285228-1448e608f3d5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="simple fruits" width="100%" height="500px"/>
+            </div>
+            <div class="myslide">
+                <img src="https://images.unsplash.com/photo-1610444833641-0542660a4ed7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="fruit basket" width="100%" height="500px"/>
+            </div>
+            <div class="myslide">
+                <img src="https://images.unsplash.com/photo-1609780447631-05b93e5a88ea?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80" alt="fruit market" width="100%" height="500px"/>
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            <div style="text-align:center">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <span style="color: #f2f2f2;">&copy; Vindigo</span>
+    </footer>
+    <script>
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        // Thumbnail image controls
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("myslide");
+            var dots = document.getElementsByClassName("dot");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
+        }        
+    </script>
+</body>
+</html>
