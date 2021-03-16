@@ -1,15 +1,8 @@
-import Footer from "./Components/Footer";
-import Header from "./Components/Header";
-import Home from "./Components/Home";
-import LoginComponent from "./Components/LoginComponent";
+import LandingComponent from "./Components/LandingComponent";
 
 function App() {
   return (
-    <>
-    <Header/>
-    <Home/>
-    <Footer/>
-    </>
+    <LandingComponent/>
   );
 }
 

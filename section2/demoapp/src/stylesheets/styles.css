@@ -126,6 +126,10 @@ a {
     padding: 1%;
 }
 
+.login-button:hover{
+    cursor:pointer;
+}
+
 .button-div {
     text-align: center;
 }

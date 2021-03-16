@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../stylesheets/styles.css'
 
-const Home=()=>{
+const Home=({username})=>{
     const [mySlides,setMySlides]=useState([])
     const [dots,setDots]=useState([])
     const [mySlideIndex,setIndex]=useState(1)
@@ -64,7 +64,7 @@ const Home=()=>{
     return (
         <div>
             <section>
-                <h1>Welcome here</h1>
+                <h1>Welcome, {username}</h1>
                 <div className="carousel-container">
                     {showSlides()}
                     <span className="prev" onClick={()=>{plusSlides(-1)}}>&#10094;</span>
