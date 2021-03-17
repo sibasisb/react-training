@@ -1,13 +1,16 @@
 import React, { useContext, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import { UserContext } from '../App'
 import '../stylesheets/styles.css'
 
-const LoginComponent=({history})=>{
-
+const UpdateUser=()=>{
+    const {userId}=useParams()
     const [username,setUsername]=useState("")
     const [password,setPassword]=useState("")
     const [showAlert,setShowAlert]=useState(false)
     const {state,dispatch}=useContext(UserContext)
+    const history=useHistory()
+
 
     const handleSubmit=(e)=>{
         e.preventDefault()
@@ -15,13 +18,10 @@ const LoginComponent=({history})=>{
             setShowAlert(true)
             return;
         }
-        let x=state.find(user=>user.username===username && user.password===password)
-        if(!x){
-            setShowAlert(true)
-            return;
-        }
         const newUser={
-            ...x,
+            userId,
+            username,
+            password,
             isLoggedIn:true
         }
         dispatch({type:"USER_UPDATE",payload:{user:newUser}})
@@ -39,14 +39,16 @@ const LoginComponent=({history})=>{
 
     return (
         <section>
-        <div className="card">
-            <div className="card-header">Please Log In Here</div>
-            <div className="card-body">
+            <div className="card">
+                <div className="card-header">
+                    Update your details
+                </div>
+                <div className="card-body">
             {
                 showAlert?(
                 <div className="alert-box">
                     <div className="alert-message">
-                        <span style={{color:"#0e141e"}}>Invalid username/password</span>
+                        <span style={{color:"#0e141e"}}>Please give a username and password</span>
                     </div>
                 </div>):
                 ""
@@ -64,15 +66,15 @@ const LoginComponent=({history})=>{
                     (username==="" || password==="")?
                     (""):
                     (<div className="button-div">
-                        <input type="submit" className="login-button" value="Login" />
+                        <input type="submit" className="login-button" value="Update" />
                         <input type="button" className="reset-button" value="Reset" onClick={()=>{onReset()}}/>
                     </div>)
                 }
             </form>
             </div>
-        </div>
+            </div>
         </section>
     )
 }
 
-export default LoginComponent;
+export default UpdateUser

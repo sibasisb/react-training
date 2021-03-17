@@ -143,6 +143,19 @@ a {
     cursor:pointer;
 }
 
+.reset-button {
+    background-color: #ff3333;
+    width:50%;
+    padding: 1%;
+    color:#f2f2f2;
+    line-height: 2;
+    margin-left: 2%;
+}
+
+.reset-button:hover{
+    cursor:pointer;
+}
+
 .logout-button{
     background-color: #5cb85c;
     color:#f2f2f2;
@@ -154,7 +167,8 @@ a {
 }
 
 .button-div {
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .input-div {
@@ -170,3 +184,16 @@ a {
 .alert-message {
     text-align: center;
 }
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  ul li {
+    border: 1px solid #ddd;
+    margin-top: -1px;
+    background-color: #f6f6f6;
+    padding: 12px;
+  }

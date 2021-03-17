@@ -10,10 +10,10 @@ class LandingComponent extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            isLoggedIn:false,
             user:{
                 username:"",
-                password:""
+                profilePic:"",
+                isLoggedIn:false
             }
         }
         this.userLogin=this.userLogin.bind(this)
@@ -22,32 +22,31 @@ class LandingComponent extends React.Component {
 
     handleLogout(){
         this.setState({
-            isLoggedIn:false,
             user:{
                 username:"",
-                password:""
+                profilePic:"",
+                isLoggedIn:false
             }
         })
     }
 
     userLogin(newUser){
         this.setState({
-            isLoggedIn:true,
-            user:newUser
+            user:{...newUser,isLoggedIn:true}
         })
     }
 
     render(){
         return (
             <>
-            <Header isLoggedIn={this.state.isLoggedIn} username={this.state.user.username} handleLogout={this.handleLogout}/>
+            <Header isLoggedIn={this.state.user.isLoggedIn} username={this.state.user.username} handleLogout={this.handleLogout}/>
             {
-                !this.state.isLoggedIn && (
+                !this.state.user.isLoggedIn && (
                     <LoginComponent onLogin={(newUser)=>{this.userLogin(newUser)}} />
                 )
             }
             {
-                this.state.isLoggedIn && (
+                this.state.user.isLoggedIn && (
                     <Home username={this.state.user.username}/>
                 )
             }

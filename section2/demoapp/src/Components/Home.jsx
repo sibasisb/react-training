@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import '../stylesheets/styles.css'
 
-const Home=({username})=>{
+const Home=(props)=>{
     const [mySlides,setMySlides]=useState([])
     const [dots,setDots]=useState([])
     const [mySlideIndex,setIndex]=useState(1)
+    const username=props.location.state.user.username
     useEffect(()=>{
         let tempDots=dots
         tempDots=tempDots.map((temp,index)=>{
@@ -64,7 +65,7 @@ const Home=({username})=>{
     return (
         <div>
             <section>
-                <h1>Welcome, {username.toUpperCase()}</h1>
+                <h1>Welcome, {username?.toUpperCase()}</h1>
                 <div className="carousel-container">
                     {showSlides()}
                     <span className="prev" onClick={()=>{plusSlides(-1)}}>&#10094;</span>
