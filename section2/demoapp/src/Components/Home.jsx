@@ -5,7 +5,7 @@ const Home=(props)=>{
     const [mySlides,setMySlides]=useState([])
     const [dots,setDots]=useState([])
     const [mySlideIndex,setIndex]=useState(1)
-    const username=props.location.state.user.username
+    const username=props.location.state.user.firstName
     useEffect(()=>{
         let tempDots=dots
         tempDots=tempDots.map((temp,index)=>{

@@ -1,40 +1,50 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../App'
+import { useAuth } from '../contexts/AuthContext'
+import { auth } from '../firebase'
 import '../stylesheets/styles.css'
 
 const LoginComponent=({history})=>{
 
-    const [username,setUsername]=useState("")
+    const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
     const [showAlert,setShowAlert]=useState(false)
     const {state,dispatch}=useContext(UserContext)
-
-    const handleSubmit=(e)=>{
+    const {signin}=useAuth()
+    async function handleSubmit(e){
         e.preventDefault()
-        if(username===null || username.length===0 || password===null || password.length===0){
+        if(email===null || email.length===0 || password===null || password.length===0){
             setShowAlert(true)
             return;
         }
-        let x=state.find(user=>user.username===username && user.password===password)
-        if(!x){
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)===false)
+        {
             setShowAlert(true)
-            return;
+            return
         }
-        const newUser={
-            ...x,
-            isLoggedIn:true
+        try{
+            await signin(email,password)
+            let x=state.find(user=>user.email===email)
+            const newUser={
+                ...x
+            }
+            dispatch({type:"USER_UPDATE",payload:{user:newUser}})
+            //localStorage.setItem("user",JSON.stringify(newUser))
+            history.push({
+                pathname:'/home',
+                state:{user:newUser}
+            })
         }
-        dispatch({type:"USER_UPDATE",payload:{user:newUser}})
-        //localStorage.setItem("user",JSON.stringify(newUser))
-        history.push({
-            pathname:'/home',
-            state:{user:newUser}
-        })
+        catch{
+            setShowAlert(true)
+            return
+        }
     }
 
     const onReset=()=>{
-        setUsername("")
+        setEmail("")
         setPassword("")
+        setShowAlert(false)
     }
 
     return (
@@ -46,22 +56,22 @@ const LoginComponent=({history})=>{
                 showAlert?(
                 <div className="alert-box">
                     <div className="alert-message">
-                        <span style={{color:"#0e141e"}}>Invalid username/password</span>
+                        <span style={{color:"#0e141e"}}>Invalid email/password</span>
                     </div>
                 </div>):
                 ""
             }
             <form className="myform" onSubmit={handleSubmit}>
                 <div className="input-div">
-                <label htmlFor="username">Username</label><br/>
-                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="username" placeholder="Username" value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
+                <label htmlFor="email">Email</label><br/>
+                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="email" placeholder="Email" value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
                 </div>
                 <div className="input-div">
                 <label htmlFor="password">Password</label><br/>
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="password" name="password" placeholder="Password" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
                 </div>
                 {
-                    (username==="" || password==="")?
+                    (email==="" || password==="")?
                     (""):
                     (<div className="button-div">
                         <input type="submit" className="login-button" value="Login" />

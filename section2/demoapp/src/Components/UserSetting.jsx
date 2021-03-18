@@ -2,16 +2,24 @@ import React, { useContext } from 'react'
 import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import { UserContext } from '../App'
+import { useAuth } from '../contexts/AuthContext'
 
 const UserSetting=()=>{
     const {userId}=useParams()
     const {state,dispatch}=useContext(UserContext)
+    const {deleteUser}=useAuth()
     const history=useHistory()
 
-    const onDelete=()=>{
-        const newUser=state.find(user=>user.userId===userId)
-        dispatch({type:"USER_DELETE",payload:{user:newUser}})
-        history.push('/')
+    async function onDelete(){
+        try{
+            await deleteUser();
+            const newUser=state.find(user=>user.userId===userId)
+            dispatch({type:"USER_DELETE",payload:{user:newUser}})
+            history.push('/')
+        }
+        catch{
+            console.log("could not delete user");
+        }
     }
 
     return(

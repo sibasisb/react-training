@@ -1,46 +1,64 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { UserContext } from '../App'
+import { useAuth } from '../contexts/AuthContext'
 import '../stylesheets/styles.css'
 
 const UpdateUser=()=>{
     const {userId}=useParams()
-    const [username,setUsername]=useState("")
     const [firstName,setFirstName]=useState("")
     const [lastName,setLastName]=useState("")
     const [password,setPassword]=useState("")
     const [pic,setPic]=useState("")
     const [showAlert,setShowAlert]=useState(false)
     const {state,dispatch}=useContext(UserContext)
+    const {updateUser}=useAuth()
     const history=useHistory()
 
+    useEffect(()=>{
+        let x=state.find(user=>user.userId===userId)
+        if(x){
+            setFirstName(x.firstName)
+            setLastName(x.lastName)
+            setPic(x.pic)
+        }
+    },[])
 
-    const handleSubmit=(e)=>{
+    async function handleSubmit(e){
         e.preventDefault()
-        if(username===null || username.length===0 || password===null || password.length===0){
+        if(firstName===null || firstName.length===0 || password===null || password.length<6){
             setShowAlert(true)
             return;
         }
+        let x=state.find(user=>user.userId===userId)
         const newUser={
-            userId,
-            username,
+            ...x,
             firstName,
             lastName,
             password,
-            pic,
-            isLoggedIn:true
+            pic
         }
-        dispatch({type:"USER_UPDATE",payload:{user:newUser}})
-        //localStorage.setItem("user",JSON.stringify(newUser))
-        history.push({
-            pathname:'/home',
-            state:{user:newUser}
-        })
+        try{
+            await updateUser(newUser.password)
+            dispatch({type:"USER_UPDATE",payload:{user:newUser}})
+            //localStorage.setItem("user",JSON.stringify(newUser))
+            history.push({
+                pathname:'/home',
+                state:{user:newUser}
+            })
+        }
+        catch{
+            console.log("could not update user firebase");
+            setShowAlert(true)
+        }
     }
 
     const onReset=()=>{
-        setUsername("")
+        setFirstName("")
+        setLastName("")
+        setPic("")
         setPassword("")
+        setShowAlert(false)
     }
 
     return (
@@ -54,16 +72,12 @@ const UpdateUser=()=>{
                 showAlert?(
                 <div className="alert-box">
                     <div className="alert-message">
-                        <span style={{color:"#0e141e"}}>Please give a username and password</span>
+                        <span style={{color:"#0e141e"}}>Please give valid password and first name</span>
                     </div>
                 </div>):
                 ""
             }
             <form className="myform" onSubmit={handleSubmit}>
-                <div className="input-div">
-                <label htmlFor="username">Username</label><br/>
-                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="username" placeholder="Username" value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
-                </div>
                 <div className="input-div">
                 <label htmlFor="firstName">First Name</label><br/>
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="firstName" placeholder="First Name" value={firstName} onChange={(e)=>{setFirstName(e.target.value)}}/>
@@ -81,7 +95,7 @@ const UpdateUser=()=>{
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="pic" placeholder="Profile pic link" value={pic} onChange={(e)=>{setPic(e.target.value)}}/>
                 </div>
                 {
-                    (username==="" || password==="")?
+                    (firstName==="" || password==="")?
                     (""):
                     (<div className="button-div">
                         <input type="submit" className="login-button" value="Update" />

@@ -7,6 +7,7 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import userReducer, { initialState } from './reducers/userReducer';
 import UpdateUser from './Components/UpdateUser';
+import { AuthProvider } from './contexts/AuthContext';
 
 export const UserContext = createContext();
 
@@ -26,11 +27,13 @@ function App() {
 
   return (
     <UserContext.Provider value={{state,dispatch}}>
+    <AuthProvider>
     <BrowserRouter>
     <Header/>
     <Routing/>
     <Footer/>
     </BrowserRouter>
+    </AuthProvider>
     </UserContext.Provider>
   );
 }

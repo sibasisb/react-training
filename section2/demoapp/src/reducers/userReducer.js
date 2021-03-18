@@ -1,21 +1,19 @@
 export const initialState=[
     {
         userId:"1",
-        username:"siba",
-        firstName:"Sibasis",
+        email:"siba@gmail.com",
+        firstName:"Siba",
         lastName:"Bhattacharjee",
         password:"123",
-        pic:"https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1188&q=80",
-        isLoggedIn:false
+        pic:"https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1188&q=80"
     },
     {
         userId:"2",
-        username:"user",
+        email:"billy@gmail.com",
         firstName:"Billy",
         lastName:"Milly",
         password:"123",
-        pic:"https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1188&q=80",
-        isLoggedIn:false
+        pic:"https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1188&q=80"
     }
 ]
 
