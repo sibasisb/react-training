@@ -197,3 +197,7 @@ ul {
     background-color: #f6f6f6;
     padding: 12px;
   }
+
+  .material-icons:hover {
+    cursor: pointer;
+  }

@@ -27,7 +27,11 @@ const Header=()=>{
                 {
                 user?.isLoggedIn?(
                 <div className="user-info">
-                    <div><span className="material-icons" style={{color: "white", fontSize: "3rem"}}>account_circle</span></div>
+                    <div>
+                        <img style={{width:"50px",height:"50px",borderRadius:"24px"}}
+                        src={user?user.pic:'Loading..'}
+                        />
+                    </div>
                     <div className="user-name"><span>{user.username.charAt(0).toUpperCase() + user.username.slice(1)}</span></div>
                     <div className="user-name"><Link to={"/userSetting/"+user.userId}><span>Settings</span></Link></div>
                     <div className="user-name"><button className="logout-button" onClick={()=>{handleLogout()}}>Logout</button></div>

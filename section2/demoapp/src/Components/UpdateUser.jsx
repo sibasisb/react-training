@@ -6,7 +6,10 @@ import '../stylesheets/styles.css'
 const UpdateUser=()=>{
     const {userId}=useParams()
     const [username,setUsername]=useState("")
+    const [firstName,setFirstName]=useState("")
+    const [lastName,setLastName]=useState("")
     const [password,setPassword]=useState("")
+    const [pic,setPic]=useState("")
     const [showAlert,setShowAlert]=useState(false)
     const {state,dispatch}=useContext(UserContext)
     const history=useHistory()
@@ -21,7 +24,10 @@ const UpdateUser=()=>{
         const newUser={
             userId,
             username,
+            firstName,
+            lastName,
             password,
+            pic,
             isLoggedIn:true
         }
         dispatch({type:"USER_UPDATE",payload:{user:newUser}})
@@ -59,8 +65,20 @@ const UpdateUser=()=>{
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="username" placeholder="Username" value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
                 </div>
                 <div className="input-div">
+                <label htmlFor="firstName">First Name</label><br/>
+                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="firstName" placeholder="First Name" value={firstName} onChange={(e)=>{setFirstName(e.target.value)}}/>
+                </div>
+                <div className="input-div">
+                <label htmlFor="lastName">Last Name</label><br/>
+                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="lastName" placeholder="Last Name" value={lastName} onChange={(e)=>{setLastName(e.target.value)}}/>
+                </div>
+                <div className="input-div">
                 <label htmlFor="password">Password</label><br/>
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="password" name="password" placeholder="Password" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
+                </div>
+                <div className="input-div">
+                <label htmlFor="pic">Profile picture link</label><br/>
+                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="pic" placeholder="Profile pic link" value={pic} onChange={(e)=>{setPic(e.target.value)}}/>
                 </div>
                 {
                     (username==="" || password==="")?

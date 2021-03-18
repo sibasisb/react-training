@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../stylesheets/styles.css'
-import {Link, useParams} from 'react-router-dom'
+import {Link, useHistory, useParams} from 'react-router-dom'
+import { UserContext } from '../App'
 
 const UserSetting=()=>{
     const {userId}=useParams()
+    const {state,dispatch}=useContext(UserContext)
+    const history=useHistory()
+
+    const onDelete=()=>{
+        const newUser=state.find(user=>user.userId===userId)
+        dispatch({type:"USER_DELETE",payload:{user:newUser}})
+        history.push('/')
+    }
+
     return(
         <section>
             <div className="card">
@@ -20,7 +30,7 @@ const UserSetting=()=>{
                     <li>
                         <div style={{display:"flex",justifyContent:"space-between"}}>
                             <span>Delete</span>
-                            <Link to={""}><span className="material-icons" style={{color:"black",fontSize: "2rem"}}>delete_forever</span></Link>
+                            <span onClick={()=>{onDelete()}} className="material-icons" style={{color:"black",fontSize: "2rem"}}>delete_forever</span>
                         </div>
                     </li>
                 </ul>
