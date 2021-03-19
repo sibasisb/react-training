@@ -49,6 +49,18 @@ const UserSetting=()=>{
                             <span onClick={()=>{onDelete()}} className="material-icons" style={{color:"black",fontSize: "2rem"}}>delete_forever</span>
                         </div>
                     </li>
+                    {
+                    (state?.find(user=>user.userId===userId)?.role==="admin")?
+                    (
+                        <li>
+                        <div style={{display:"flex",justifyContent:"space-between"}}>
+                            <span>Manage Users</span>
+                            <Link to={"/adminSettings"}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
+                        </div>
+                        </li>
+                    ):
+                    ""
+                    }
                 </ul>
             </div>
         </section>

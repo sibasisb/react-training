@@ -8,6 +8,8 @@ export default function PrivateRoute({ component: Component,roles, ...rest }) {
     const {state}=useContext(UserContext)
     function checkAuthorization(){
         let x=state.find(user=>user.email===currentUser.email)
+        console.log(roles);
+        console.log(x.role);
         if(roles.includes(x.role))
             return true
         return false
