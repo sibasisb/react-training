@@ -8,6 +8,8 @@ import Footer from "./Components/Footer";
 import userReducer, { initialState } from './reducers/userReducer';
 import UpdateUser from './Components/UpdateUser';
 import { AuthProvider } from './contexts/AuthContext';
+import PrivateRoute from './Components/PrivateRoute';
+import Unauthorized from './Components/Unauthorized';
 
 export const UserContext = createContext();
 
@@ -15,9 +17,10 @@ const Routing=()=>{
   return (
     <Switch>
       <Route exact path="/" component={LoginComponent}/>
-      <Route path="/userSetting/:userId"><UserSetting/></Route>
-      <Route path="/updateUser/:userId" component={UpdateUser}/>
-      <Route path="/home" component={Home}/>
+      <Route path="/unauthorized" component={Unauthorized}/>
+      <PrivateRoute roles={"user","admin"} path="/userSetting/:userId"><UserSetting/></PrivateRoute>
+      <PrivateRoute roles={"user,admin"} path="/updateUser/:userId" component={UpdateUser}/>
+      <PrivateRoute roles={"user","admin"} path="/home" component={Home}/>
     </Switch>
   )
 }

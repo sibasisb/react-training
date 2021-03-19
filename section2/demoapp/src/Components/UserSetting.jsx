@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import { UserContext } from '../App'
@@ -7,8 +7,16 @@ import { useAuth } from '../contexts/AuthContext'
 const UserSetting=()=>{
     const {userId}=useParams()
     const {state,dispatch}=useContext(UserContext)
-    const {deleteUser}=useAuth()
+    const {deleteUser,currentUser}=useAuth()
     const history=useHistory()
+
+    useEffect(()=>{
+        let x=state.find(user=>user.userId===userId)
+        if(!currentUser ||!x || x.email!==currentUser.email){
+            history.push('/unauthorized')
+            return
+        }
+    },[userId])
 
     async function onDelete(){
         try{

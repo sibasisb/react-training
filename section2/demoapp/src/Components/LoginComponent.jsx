@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../App'
 import { useAuth } from '../contexts/AuthContext'
-import { auth } from '../firebase'
 import '../stylesheets/styles.css'
 
 const LoginComponent=({history})=>{

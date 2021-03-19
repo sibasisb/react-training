@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { auth } from '../firebase'
+import { auth,storage } from '../firebase'
 
 const AuthContext=createContext()
 
@@ -39,12 +39,29 @@ export function AuthProvider({children}){
         return auth.currentUser.updatePassword(password)
     }
 
+    // async function addImageUrl(image){
+    //     const uploadTask = storage.ref(`/images/${image.name}`).put(image);
+    //     uploadTask.on("state_changed", console.log, console.error, () => {
+    //     uploadTask
+    //         .snapshot
+    //         .ref
+    //         .getDownloadURL()
+    //         .then((url) => {
+    //         //setFile(null);
+    //             console.log(url);
+    //             return url
+    //         })
+    //         .catch(err=>console.log(err));
+    //     });
+    // }
+
     const value={
         currentUser,
         signin,
         signout,
         deleteUser,
-        updateUser
+        updateUser,
+        storage
     }
 
     return (

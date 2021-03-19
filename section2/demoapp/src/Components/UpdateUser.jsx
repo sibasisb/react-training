@@ -10,13 +10,19 @@ const UpdateUser=()=>{
     const [lastName,setLastName]=useState("")
     const [password,setPassword]=useState("")
     const [pic,setPic]=useState("")
+    const {currentUser}=useAuth()
+    const [image,setImage]=useState("")
     const [showAlert,setShowAlert]=useState(false)
     const {state,dispatch}=useContext(UserContext)
-    const {updateUser}=useAuth()
+    const {updateUser,storage}=useAuth()
     const history=useHistory()
 
     useEffect(()=>{
         let x=state.find(user=>user.userId===userId)
+        if(!currentUser ||!x || x.email!==currentUser.email){
+            history.push('/unauthorized')
+            return
+        }
         if(x){
             setFirstName(x.firstName)
             setLastName(x.lastName)
@@ -30,27 +36,39 @@ const UpdateUser=()=>{
             setShowAlert(true)
             return;
         }
-        let x=state.find(user=>user.userId===userId)
-        const newUser={
-            ...x,
-            firstName,
-            lastName,
-            password,
-            pic
-        }
-        try{
-            await updateUser(newUser.password)
-            dispatch({type:"USER_UPDATE",payload:{user:newUser}})
-            //localStorage.setItem("user",JSON.stringify(newUser))
-            history.push({
-                pathname:'/home',
-                state:{user:newUser}
+        const uploadTask = storage.ref(`/images/${image.name}`).put(image);
+        uploadTask.on("state_changed", console.log, console.error, () => {
+        uploadTask
+            .snapshot
+            .ref
+            .getDownloadURL()
+            .then((url) => {
+                //setFile(null);
+                let x=state.find(user=>user.userId===userId)
+                console.log(url);
+                const newUser={
+                    ...x,
+                    firstName,
+                    lastName,
+                    password,
+                    pic:url
+                }
+                updateUser(newUser.password)
+                .then(()=>{
+                    dispatch({type:"USER_UPDATE",payload:{user:newUser}})
+                    //localStorage.setItem("user",JSON.stringify(newUser))
+                    history.push({
+                        pathname:'/home',
+                        state:{user:newUser}
+                    })
+                })
             })
-        }
-        catch{
-            console.log("could not update user firebase");
-            setShowAlert(true)
-        }
+            .catch(err=>{
+                console.log(err)
+                console.log("could not update firebase");
+                setShowAlert(true)
+            });
+        });
     }
 
     const onReset=()=>{
@@ -91,14 +109,14 @@ const UpdateUser=()=>{
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="password" name="password" placeholder="Password" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
                 </div>
                 <div className="input-div">
-                <label htmlFor="pic">Profile picture link</label><br/>
-                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="pic" placeholder="Profile pic link" value={pic} onChange={(e)=>{setPic(e.target.value)}}/>
+                <label htmlFor="pic">Upload profile picture</label><br/>
+                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="file" name="pic"  onChange={(e)=>{setImage(e.target.files[0])}}/>
                 </div>
                 {
                     (firstName==="" || password==="")?
                     (""):
                     (<div className="button-div">
-                        <input type="submit" className="login-button" value="Update" />
+                        <input type="submit" className="login-button" value="Save" />
                         <input type="button" className="reset-button" value="Reset" onClick={()=>{onReset()}}/>
                     </div>)
                 }
