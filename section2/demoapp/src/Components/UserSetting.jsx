@@ -7,7 +7,7 @@ import { useAuth } from '../contexts/AuthContext'
 const UserSetting=()=>{
     const {userId}=useParams()
     const {state,dispatch}=useContext(UserContext)
-    const {deleteUser,currentUser}=useAuth()
+    const {signout,currentUser}=useAuth()
     const history=useHistory()
 
     useEffect(()=>{
@@ -20,9 +20,9 @@ const UserSetting=()=>{
 
     async function onDelete(){
         try{
-            await deleteUser();
             const newUser=state.find(user=>user.userId===userId)
             dispatch({type:"USER_DELETE",payload:{user:newUser}})
+            await signout();
             history.push('/')
         }
         catch{

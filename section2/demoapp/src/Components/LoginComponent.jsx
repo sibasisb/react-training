@@ -21,9 +21,13 @@ const LoginComponent=({history})=>{
             setShowAlert(true)
             return
         }
+        let x=state.find(user=>user.email===email)
+        if(!x){
+            setShowAlert(true)
+            return 
+        }
         try{
             await signin(email,password)
-            let x=state.find(user=>user.email===email)
             const newUser={
                 ...x
             }

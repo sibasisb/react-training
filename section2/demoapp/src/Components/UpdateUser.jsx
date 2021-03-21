@@ -36,6 +36,25 @@ const UpdateUser=()=>{
             setShowAlert(true)
             return;
         }
+        if(!image){
+            let x=state.find(user=>user.userId===userId)
+            const newUser={
+                ...x,
+                firstName,
+                lastName,
+                password
+            }
+            updateUser(newUser.password)
+            .then(()=>{
+                dispatch({type:"USER_UPDATE",payload:{user:newUser}})
+                //localStorage.setItem("user",JSON.stringify(newUser))
+                history.push({
+                    pathname:'/home',
+                    state:{user:newUser}
+                })
+            })
+            return
+        }
         const uploadTask = storage.ref(`/images/${image.name}`).put(image);
         uploadTask.on("state_changed", console.log, console.error, () => {
         uploadTask
@@ -65,7 +84,7 @@ const UpdateUser=()=>{
             })
             .catch(err=>{
                 console.log(err)
-                console.log("could not update firebase");
+                console.log("could not update firebase storage");
                 setShowAlert(true)
             });
         });
