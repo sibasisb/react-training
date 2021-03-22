@@ -55,7 +55,7 @@ const UserSetting=()=>{
                         <li>
                         <div style={{display:"flex",justifyContent:"space-between"}}>
                             <span>Manage Users</span>
-                            <Link to={"/adminSettings"}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
+                            <Link to={"/adminSettings/"+userId}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
                         </div>
                         </li>
                     ):

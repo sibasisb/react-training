@@ -22,7 +22,7 @@ const Routing=()=>{
       <PrivateRoute roles={["user","admin"]} path="/userSetting/:userId"><UserSetting/></PrivateRoute>
       <PrivateRoute roles={["user","admin"]} path="/updateUser/:userId" component={UpdateUser}/>
       <PrivateRoute roles={["user","admin"]} path="/home" component={Home}/>
-      <PrivateRoute roles={["admin"]} path="/adminSettings" component={AdminSettings}/>
+      <PrivateRoute roles={["admin"]} path="/adminSettings/:userId" component={AdminSettings}/>
     </Switch>
   )
 }

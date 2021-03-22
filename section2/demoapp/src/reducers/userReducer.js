@@ -31,10 +31,10 @@ export const userReducer=(state,action)=>{
                 }
                 return user
             })
-            console.log(state);
             break;
         case "USER_DELETE": 
-            state=state.filter(user=>user.userId!==action.payload.user.userId)
+            console.log(action);
+            state=state.filter(user=>user.userId!==action.payload.user.userId);
             break;
         default: return state;
     }
