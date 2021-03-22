@@ -40,7 +40,7 @@ const UserSetting=()=>{
                     <li>
                         <div style={{display:"flex",justifyContent:"space-between"}}>
                             <span>Update</span>
-                            <Link to={"/updateUser/" + userId}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
+                            <Link to={"/updateUser/" + userId + "/null"}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
                         </div>
                     </li>
                     <li>
@@ -55,7 +55,7 @@ const UserSetting=()=>{
                         <li>
                         <div style={{display:"flex",justifyContent:"space-between"}}>
                             <span>Manage Users</span>
-                            <Link to={"/adminSettings/"+userId}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
+                            <Link to={"/adminSettings/"+userId}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>visibility</span></Link>
                         </div>
                         </li>
                     ):
