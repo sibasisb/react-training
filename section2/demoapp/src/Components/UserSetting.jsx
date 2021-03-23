@@ -2,32 +2,35 @@ import React, { useContext, useEffect } from 'react'
 import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import { UserContext } from '../App'
-import { useAuth } from '../contexts/AuthContext'
+import axios from 'axios'
+import { getHeader } from '../helpers/AuthHeader'
 
 const UserSetting=()=>{
     const {userId}=useParams()
     const {state,dispatch}=useContext(UserContext)
-    const {signout,currentUser}=useAuth()
     const history=useHistory()
 
     useEffect(()=>{
-        let x=state.find(user=>user.userId===userId)
-        if(!currentUser ||!x || x.email!==currentUser.email){
+        const x=JSON.parse(localStorage.getItem("user"))
+        if(!x || x.userId!==userId){
             history.push('/unauthorized')
             return
         }
     },[userId])
 
-    async function onDelete(){
-        try{
-            const newUser=state.find(user=>user.userId===userId)
-            dispatch({type:"USER_DELETE",payload:{user:newUser}})
-            await signout();
+    function onDelete(){
+        
+        axios.delete(`http://localhost:3001/auth/${userId}`,getHeader())
+        .then(res=>{
+            if(res.status!==200){
+                return 
+            }
+            dispatch({type:"USER_LOGOUT",payload:{}})
             history.push('/')
-        }
-        catch{
-            console.log("could not delete user");
-        }
+        })
+        .catch(err=>{
+            console.log(err)
+        })
     }
 
     return(
@@ -50,7 +53,7 @@ const UserSetting=()=>{
                         </div>
                     </li>
                     {
-                    (state?.find(user=>user.userId===userId)?.role==="admin")?
+                    (state?.user?.role==="admin")?
                     (
                         <li>
                         <div style={{display:"flex",justifyContent:"space-between"}}>

@@ -1,27 +1,37 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../App'
 import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
+import axios from 'axios'
+import { getHeader } from '../helpers/AuthHeader'
 
 const AdminSettings=()=>{
     const [users,setUsers]=useState([])
     const [alert,setAlert]=useState(false)
     const {userId}=useParams()
-    const {state,dispatch}=useContext(UserContext)
     const history=useHistory()
 
     useEffect(()=>{
-        let newUsers=state.filter(u=>u.userId!==userId)
-        setAlert(true)
-        setUsers(newUsers)
-    },[state])
+        axios.get('http://localhost:3001/auth/users')
+        .then(res=>{
+            setAlert(true)
+            let newUsers=res.data.users
+            newUsers=newUsers.filter(u=>u.userId!==userId)
+            setUsers(newUsers)
+        })
+    },[])
 
     function onDelete(user){
-        console.log(user);
-        let x=state.find(u=>u.userId===user.userId)
-        console.log(x);
-        dispatch({type:"USER_DELETE",payload:{user:x}})
-        history.push(`/adminSettings/${userId}`)
+        axios.delete(`http://localhost:3001/auth/${user.userId}`,getHeader())
+        .then(res=>{
+            if(res.status!==200){
+                return 
+            }
+            let newUsers=users.filter(u=>u.userId!==user.userId)
+            setUsers(newUsers)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
     }
 
     function displayRows(){

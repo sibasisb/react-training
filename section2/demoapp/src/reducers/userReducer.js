@@ -1,44 +1,26 @@
-export const initialState=[
-    {
-        userId:"1",
-        email:"siba@gmail.com",
-        firstName:"Siba",
-        lastName:"Bhattacharjee",
-        password:"123",
-        role:"admin",
-        pic:"https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1188&q=80"
-    },
-    {
-        userId:"2",
-        email:"billy@gmail.com",
-        firstName:"Billy",
-        lastName:"Milly",
-        password:"123",
-        role:"user",
-        pic:"https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1188&q=80"
-    }
-]
+export const initialState={
+    user:null,
+    token:null
+}
 
 export const userReducer=(state,action)=>{
     switch(action.type){
-        case "USER_ADD": 
-            state.push(action.payload.user)
-            break;            
-        case "USER_UPDATE": 
-            state=state.map(user=>{
-                if(user.userId===action.payload.user.userId){
-                    return action.payload.user
-                }
-                return user
-            })
-            break;
-        case "USER_DELETE": 
-            console.log(action);
-            state=state.filter(user=>user.userId!==action.payload.user.userId);
-            break;
+        case "USER_LOGIN": 
+            localStorage.setItem("user", JSON.stringify(action.payload.user));
+            localStorage.setItem("token", action.payload.token);
+            return {
+                ...state,
+                user:action.payload.user,
+                token:action.payload.token
+            }            
+        case "USER_LOGOUT": 
+            localStorage.clear()
+            return {
+                user:null,
+                token:null
+            }
         default: return state;
     }
-    return state;
 }
 
 export default userReducer

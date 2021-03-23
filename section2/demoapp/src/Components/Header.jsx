@@ -2,29 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import '../stylesheets/styles.css'
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from "../App";
-import { useAuth } from "../contexts/AuthContext";
 
 const Header=()=>{
     const {state,dispatch}=useContext(UserContext)
     const [user,setUser]=useState(null)
-    const {currentUser,signout}=useAuth()
     const history=useHistory()
     useEffect(()=>{
-        const newUser=state.find(user=>user.email===currentUser?.email)
+        const newUser=JSON.parse(localStorage.getItem("user"))
         if(newUser)
             setUser(newUser)
         else
             setUser(null)
         
-    },[state,currentUser])
+    },[state])
 
-    async function handleLogout(){
-        try{
-            await signout();
-        }
-        catch{
-            console.log("could not sign out");
-        }
+    function handleLogout(){
+        dispatch({type:"USER_LOGOUT",payload:{}})    
         history.push('/')
     }
     return (
@@ -42,7 +35,7 @@ const Header=()=>{
                             (<span className="material-icons" style={{color: "white", fontSize: "3rem"}}>account_circle</span>)
                         }
                     </div>
-                    <div className="user-name"><span>{user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}</span></div>
+                    <div className="user-name"><span>{user?.firstName?.charAt(0)?.toUpperCase() + user?.firstName?.slice(1)}</span></div>
                     <div className="user-name"><Link to={"/userSetting/"+user.userId}><span>Settings</span></Link></div>
                     <div className="user-name"><button className="logout-button" onClick={()=>{handleLogout()}}>Logout</button></div>
                 </div>):

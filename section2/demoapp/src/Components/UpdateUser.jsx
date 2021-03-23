@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { UserContext } from '../App'
-import { useAuth } from '../contexts/AuthContext'
 import '../stylesheets/styles.css'
+import {storage} from '../firebase'
+import axios from 'axios'
 
 const UpdateUser=()=>{
     const {userId}=useParams()
@@ -10,16 +11,14 @@ const UpdateUser=()=>{
     const [lastName,setLastName]=useState("")
     const [password,setPassword]=useState("")
     const [pic,setPic]=useState("")
-    const {currentUser}=useAuth()
     const [image,setImage]=useState("")
     const [showAlert,setShowAlert]=useState(false)
     const {state,dispatch}=useContext(UserContext)
-    const {updateUser,storage}=useAuth()
     const history=useHistory()
 
     useEffect(()=>{
-        let x=state.find(user=>user.userId===userId)
-        if(!currentUser ||!x || x.email!==currentUser.email){
+        const x=JSON.parse(localStorage.getItem("user"))
+        if(!x || x.userId!==userId){
             history.push('/unauthorized')
             return
         }
@@ -30,28 +29,31 @@ const UpdateUser=()=>{
         }
     },[])
 
-    async function handleSubmit(e){
+    function handleSubmit(e){
         e.preventDefault()
         if(firstName===null || firstName.length===0 || password===null || password.length<6){
             setShowAlert(true)
             return;
         }
         if(!image){
-            let x=state.find(user=>user.userId===userId)
+            const x=JSON.parse(localStorage.getItem("user"))
             const newUser={
                 ...x,
                 firstName,
                 lastName,
                 password
             }
-            updateUser(newUser.password)
+            axios.post(`http://localhost:3001/auth/${userId}`,
+            newUser)
             .then(()=>{
-                dispatch({type:"USER_UPDATE",payload:{user:newUser}})
-                //localStorage.setItem("user",JSON.stringify(newUser))
+                localStorage.setItem("user",JSON.stringify(newUser))
                 history.push({
                     pathname:'/home',
                     state:{user:newUser}
                 })
+            })
+            .catch(err=>{
+                console.log(err);
             })
             return
         }
@@ -72,19 +74,22 @@ const UpdateUser=()=>{
                     password,
                     pic:url
                 }
-                updateUser(newUser.password)
+                axios.post(`http://localhost:3001/auth/${userId}`,
+                newUser)
                 .then(()=>{
-                    dispatch({type:"USER_UPDATE",payload:{user:newUser}})
-                    //localStorage.setItem("user",JSON.stringify(newUser))
+                    localStorage.setItem("user",JSON.stringify(newUser))
                     history.push({
                         pathname:'/home',
                         state:{user:newUser}
                     })
                 })
-            })
+                .catch(err=>{
+                    console.log(err);
+                })
+                return
+                })
             .catch(err=>{
                 console.log(err)
-                console.log("could not update firebase storage");
                 setShowAlert(true)
             });
         });

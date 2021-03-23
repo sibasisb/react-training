@@ -7,7 +7,6 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import userReducer, { initialState } from './reducers/userReducer';
 import UpdateUser from './Components/UpdateUser';
-import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './Components/PrivateRoute';
 import Unauthorized from './Components/Unauthorized';
 import AdminSettings from './Components/AdminSettings';
@@ -32,13 +31,11 @@ function App() {
 
   return (
     <UserContext.Provider value={{state,dispatch}}>
-    <AuthProvider>
     <BrowserRouter>
     <Header/>
     <Routing/>
     <Footer/>
     </BrowserRouter>
-    </AuthProvider>
     </UserContext.Provider>
   );
 }

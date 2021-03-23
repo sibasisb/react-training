@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../App'
-import { useAuth } from '../contexts/AuthContext'
 import '../stylesheets/styles.css'
+import axios from 'axios'
 
 const LoginComponent=({history})=>{
 
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
     const [showAlert,setShowAlert]=useState(false)
-    const {state,dispatch}=useContext(UserContext)
-    const {signin}=useAuth()
-    async function handleSubmit(e){
+    const {dispatch}=useContext(UserContext)
+    function handleSubmit(e){
         e.preventDefault()
         if(email===null || email.length===0 || password===null || password.length===0){
             setShowAlert(true)
@@ -21,27 +20,27 @@ const LoginComponent=({history})=>{
             setShowAlert(true)
             return
         }
-        let x=state.find(user=>user.email===email)
-        if(!x){
-            setShowAlert(true)
-            return 
-        }
-        try{
-            await signin(email,password)
-            const newUser={
-                ...x
-            }
-            dispatch({type:"USER_UPDATE",payload:{user:newUser}})
-            //localStorage.setItem("user",JSON.stringify(newUser))
+        axios.post('http://localhost:3001/auth/signin',
+        {
+            email,
+            password
+        })
+        .then(res=>{
+            const newUser=res.data.user
+            if(!newUser){
+                setShowAlert(true)
+                return
+            }               
+            dispatch({type:"USER_LOGIN",payload:{user:newUser,token:res.data.token}})
             history.push({
                 pathname:'/home',
                 state:{user:newUser}
-            })
-        }
-        catch{
+            })            
+        })
+        .catch(err=>{
+            console.log(err)
             setShowAlert(true)
-            return
-        }
+        })
     }
 
     const onReset=()=>{
