@@ -51,7 +51,37 @@ const getAllUsers=()=>{
     return users;
 }
 
+const updateUser=(user)=>{
+    if(!users.find(u=>u.userId===user.userId))
+        return false
+    users=users.map(u=>{
+        if(u.userId===user.userId)
+            return {...u,firstName:user.firstName,lastName:user.lastName,password:user.password,pic:user.pic}
+        return u
+    })
+    return true
+}
+
+const addUser=(user)=>{
+    if(users.find(u=>u.email===user.email))
+        return null
+    let max=-1 
+    users.forEach(u=>{
+        max=Number(u.userId)>max?Number(u.userId):max
+    })
+    let uid=max+1
+    const newUser={
+        ...user,
+        userId:uid,
+        role:"user"
+    }
+    users.push(newUser)
+    return newUser
+}
+
 module.exports.getAllUsers=getAllUsers
 module.exports.findByEmail=findByEmail
 module.exports.findById=findById
 module.exports.deleteAccount=deleteAccount
+module.exports.updateUser=updateUser
+module.exports.addUser=addUser
