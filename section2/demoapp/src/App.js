@@ -10,6 +10,7 @@ import UpdateUser from './Components/UpdateUser';
 import PrivateRoute from './Components/PrivateRoute';
 import Unauthorized from './Components/Unauthorized';
 import AdminSettings from './Components/AdminSettings';
+import AddUser from './Components/AddUser';
 
 export const UserContext = createContext();
 
@@ -22,6 +23,7 @@ const Routing=()=>{
       <PrivateRoute roles={["user","admin"]} path="/updateUser/:userId/:adminId" component={UpdateUser}/>
       <PrivateRoute roles={["user","admin"]} path="/home" component={Home}/>
       <PrivateRoute roles={["admin"]} path="/adminSettings/:userId" component={AdminSettings}/>
+      <PrivateRoute roles={["admin"]} path="/addUser/:adminId" component={AddUser}/>
     </Switch>
   )
 }

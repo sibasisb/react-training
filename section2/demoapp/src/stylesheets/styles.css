@@ -232,3 +232,22 @@ th, td {
     padding: 8px;
 }
 
+.add-user-link {
+    max-width: 500px;
+    margin: 1% auto;
+    padding: 1%;
+}
+
+.add-user-link:hover{
+    cursor: pointer;
+}
+
+.add-user-link button {
+    background-color:#5cb85c;
+    color: #f2f2f2;
+    line-height: 1.5;
+}
+
+.add-user-link button:hover{
+    cursor: pointer;
+}

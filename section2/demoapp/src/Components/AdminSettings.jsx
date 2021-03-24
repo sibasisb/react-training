@@ -87,6 +87,9 @@ const AdminSettings=()=>{
                 ):
                 ""
             }
+            <div className="button-div">
+                <Link to={`/addUser/${userId}`} className="add-user-link"><button>Add user</button></Link>
+            </div>
         </div>     
         </section>   
     )

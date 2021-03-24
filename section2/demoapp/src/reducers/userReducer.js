@@ -19,6 +19,12 @@ export const userReducer=(state,action)=>{
                 user:null,
                 token:null
             }
+        case "USER_UPDATE": 
+            localStorage.setItem("user", JSON.stringify(action.payload.user));
+            return {
+                ...state,
+                user:action.payload.user
+            }
         default: return state;
     }
 }

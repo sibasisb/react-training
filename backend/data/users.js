@@ -72,7 +72,7 @@ const addUser=(user)=>{
     let uid=max+1
     const newUser={
         ...user,
-        userId:uid,
+        userId:uid.toString(),
         role:"user"
     }
     users.push(newUser)
