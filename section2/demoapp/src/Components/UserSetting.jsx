@@ -64,6 +64,18 @@ const UserSetting=()=>{
                     ):
                     ""
                     }
+                    {
+                    (JSON.parse(localStorage.getItem("user"))?.role==="admin")?
+                    (
+                        <li>
+                        <div style={{display:"flex",justifyContent:"space-between"}}>
+                            <span>Manage Products</span>
+                            <Link to={"/adminSettings/"+userId}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>visibility</span></Link>
+                        </div>
+                        </li>
+                    ):
+                    ""
+                    }
                 </ul>
             </div>
         </section>
