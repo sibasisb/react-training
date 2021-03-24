@@ -85,7 +85,11 @@ const AddUser=()=>{
                 }
                 axios.post(`http://localhost:3001/auth/signup`,
                 newUser,getHeader())
-                .then(()=>{
+                .then((res)=>{
+                    if(res.status!==201){
+                        setShowAlert(true)
+                        return
+                    }
                     if(adminId){
                         history.push(`/adminSettings/${adminId}`)
                     }

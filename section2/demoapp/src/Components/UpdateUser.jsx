@@ -53,7 +53,11 @@ const UpdateUser=()=>{
             }
             axios.put(`http://localhost:3001/auth/${userId}`,
             newUser,getHeader())
-            .then(()=>{
+            .then((res)=>{
+                if(res.status!==200){
+                    setShowAlert(true)
+                    return
+                }
                 if(adminId!=="null"){
                     history.push(`/adminSettings/${adminId}`)
                 }
@@ -88,7 +92,11 @@ const UpdateUser=()=>{
                 }
                 axios.put(`http://localhost:3001/auth/${userId}`,
                 newUser,getHeader())
-                .then(()=>{
+                .then((res)=>{
+                    if(res.status!==200){
+                        setShowAlert(true)
+                        return
+                    }
                     if(adminId!=="null"){
                         history.push(`/adminSettings/${adminId}`)
                     }
