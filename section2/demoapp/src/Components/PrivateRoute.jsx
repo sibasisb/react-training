@@ -1,10 +1,8 @@
-import React, { useContext } from "react"
+import React from "react"
 import { Route, Redirect } from "react-router-dom"
-import { UserContext } from "../App"
 
 export default function PrivateRoute({ component: Component,roles, ...rest }) {
-    const {state}=useContext(UserContext)
-
+    
     function checkAuthorization(){
         const user=JSON.parse(localStorage.getItem("user"))
         if(roles.includes(user.role))

@@ -87,4 +87,12 @@ router.post('/signup',requireLogin,(req,res)=>{
     .catch(err=>console.log(err))
 })
 
+router.get('/getuser/:userId',requireLogin,(req,res)=>{
+    const {userId}=req.params
+    let user=users.findById(userId)
+    if(!user)
+        return res.status(404).json({message:"User not found"})
+    return res.status(200).json({user:{userId:user.userId,email:user.email,pic:user.pic,firstName:user.firstName,lastName:user.lastName,role:user.role},message:"User found"})
+})
+
 module.exports=router

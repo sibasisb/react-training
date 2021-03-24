@@ -19,7 +19,7 @@ const Routing=()=>{
       <Route exact path="/" component={LoginComponent}/>
       <Route path="/unauthorized" component={Unauthorized}/>
       <PrivateRoute roles={["user","admin"]} path="/userSetting/:userId"><UserSetting/></PrivateRoute>
-      <PrivateRoute roles={["user","admin"]} path="/updateUser/:userId" component={UpdateUser}/>
+      <PrivateRoute roles={["user","admin"]} path="/updateUser/:userId/:adminId" component={UpdateUser}/>
       <PrivateRoute roles={["user","admin"]} path="/home" component={Home}/>
       <PrivateRoute roles={["admin"]} path="/adminSettings/:userId" component={AdminSettings}/>
     </Switch>

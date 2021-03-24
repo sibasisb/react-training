@@ -14,7 +14,7 @@ const Header=()=>{
         else
             setUser(null)
         
-    },[state])
+    },[JSON.parse(localStorage.getItem("user"))])
 
     function handleLogout(){
         dispatch({type:"USER_LOGOUT",payload:{}})    

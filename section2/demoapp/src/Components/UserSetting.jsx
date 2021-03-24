@@ -53,7 +53,7 @@ const UserSetting=()=>{
                         </div>
                     </li>
                     {
-                    (state?.user?.role==="admin")?
+                    (JSON.parse(localStorage.getItem("user"))?.role==="admin")?
                     (
                         <li>
                         <div style={{display:"flex",justifyContent:"space-between"}}>

@@ -1,56 +1,67 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { UserContext } from '../App'
 import '../stylesheets/styles.css'
 import {storage} from '../firebase'
 import axios from 'axios'
+import { getHeader } from '../helpers/AuthHeader'
 
 const UpdateUser=()=>{
-    const {userId}=useParams()
+    const {userId,adminId}=useParams()
     const [firstName,setFirstName]=useState("")
     const [lastName,setLastName]=useState("")
     const [password,setPassword]=useState("")
     const [pic,setPic]=useState("")
     const [image,setImage]=useState("")
+    const [user,setUser]=useState({})
     const [showAlert,setShowAlert]=useState(false)
-    const {state,dispatch}=useContext(UserContext)
     const history=useHistory()
 
     useEffect(()=>{
         const x=JSON.parse(localStorage.getItem("user"))
-        if(!x || x.userId!==userId){
+        if(!x || (x.userId!==userId && x.role!=="admin") || (adminId!=="null" && x.userId!==adminId)){
             history.push('/unauthorized')
             return
         }
-        if(x){
-            setFirstName(x.firstName)
-            setLastName(x.lastName)
-            setPic(x.pic)
-        }
+        axios.get(`http://localhost:3001/auth/getuser/${userId}`,getHeader())
+        .then(res=>{
+            if(res.status===200){
+                setUser(res.data.user)
+                setFirstName(res.data.user.firstName)
+                setLastName(res.data.user.lastName)
+                setPic(res.data.user.pic)
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
     },[])
 
     function handleSubmit(e){
         e.preventDefault()
-        if(firstName===null || firstName.length===0 || password===null || password.length<6){
+        if(firstName===null || firstName.length===0 || password===null || password.length<4){
             setShowAlert(true)
             return;
         }
         if(!image){
-            const x=JSON.parse(localStorage.getItem("user"))
             const newUser={
-                ...x,
+                ...user,
                 firstName,
                 lastName,
                 password
             }
-            axios.post(`http://localhost:3001/auth/${userId}`,
-            newUser)
+            axios.put(`http://localhost:3001/auth/${userId}`,
+            newUser,getHeader())
             .then(()=>{
-                localStorage.setItem("user",JSON.stringify(newUser))
-                history.push({
-                    pathname:'/home',
-                    state:{user:newUser}
-                })
+                if(adminId!=="null"){
+                    history.push(`/adminSettings/${adminId}`)
+                }
+                else{
+                    localStorage.setItem("user",JSON.stringify(newUser))
+                    history.push({
+                        pathname:'/home',
+                        state:{user:newUser}
+                    })
+                }
             })
             .catch(err=>{
                 console.log(err);
@@ -64,30 +75,33 @@ const UpdateUser=()=>{
             .ref
             .getDownloadURL()
             .then((url) => {
-                //setFile(null);
-                let x=state.find(user=>user.userId===userId)
                 console.log(url);
                 const newUser={
-                    ...x,
+                    ...user,
                     firstName,
                     lastName,
                     password,
                     pic:url
                 }
-                axios.post(`http://localhost:3001/auth/${userId}`,
-                newUser)
+                axios.put(`http://localhost:3001/auth/${userId}`,
+                newUser,getHeader())
                 .then(()=>{
-                    localStorage.setItem("user",JSON.stringify(newUser))
-                    history.push({
-                        pathname:'/home',
-                        state:{user:newUser}
-                    })
+                    if(adminId!=="null"){
+                        history.push(`/adminSettings/${adminId}`)
+                    }
+                    else{
+                        localStorage.setItem("user",JSON.stringify(newUser))
+                        history.push({
+                            pathname:'/home',
+                            state:{user:newUser}
+                        })
+                    }
                 })
                 .catch(err=>{
                     console.log(err);
                 })
                 return
-                })
+            })
             .catch(err=>{
                 console.log(err)
                 setShowAlert(true)

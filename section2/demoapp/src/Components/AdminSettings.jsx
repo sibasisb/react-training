@@ -42,7 +42,7 @@ const AdminSettings=()=>{
                         <td>{user.userId}</td>
                         <td>{`${user.firstName} ${user.lastName}`}</td>
                         <td>
-                        <Link to={"/adminUpdateUser/" + user.userId + "/" + userId}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
+                        <Link to={`/updateUser/${user.userId}/${userId}`}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
                         </td>
                         <td>
                             <span onClick={()=>{onDelete(user)}} className="material-icons" style={{color:"black",fontSize: "2rem"}}>delete_forever</span>
