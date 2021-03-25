@@ -9,6 +9,7 @@ const getProductsFromFile=cb=>{
     fs.readFile(fullPath,(err,fileContent)=>{
         if(err){
             cb([])
+            return 
         }
         products=JSON.parse(fileContent)
         cb(products)
@@ -17,8 +18,9 @@ const getProductsFromFile=cb=>{
 
 module.exports=class Product {
 
-    constructor(title){
+    constructor(title,id){
         this.title=title
+        this.id=id
     }
 
     save(){
@@ -32,6 +34,13 @@ module.exports=class Product {
 
     static getAll(cb){
         getProductsFromFile(cb)
+    }
+
+    static findProductById(productId,cb){
+        getProductsFromFile((products)=>{
+            const product=products.find(p=>p.id===productId)
+            cb(product)
+        })
     }
 
 }
