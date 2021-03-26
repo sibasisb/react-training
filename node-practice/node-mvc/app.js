@@ -2,6 +2,8 @@ const express=require('express')
 
 const app=express()
 
+require('dotenv').config()
+
 const adminRouter=require('./routes/admin')
 const shopRouter=require('./routes/shop')
 const errorController=require('./controllers/error')

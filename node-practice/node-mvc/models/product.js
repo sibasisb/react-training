@@ -1,31 +1,40 @@
 const fs=require('fs')
 const path=require('path')
 const rootDirectory=require('../path/path')
+const Cart = require('./cart')
 
 const fullPath=path.join(rootDirectory,"data","products.json")
 
-const getProductsFromFile=cb=>{
+const getProductsFromFile=prod=>{
     let products=[]
     fs.readFile(fullPath,(err,fileContent)=>{
         if(err){
-            cb([])
+            prod([])
             return 
         }
         products=JSON.parse(fileContent)
-        cb(products)
+        prod(products)
     })
 }
 
 module.exports=class Product {
 
-    constructor(title,id){
+    constructor(title,id,price){
         this.title=title
         this.id=id
+        this.price
     }
 
     save(){
         getProductsFromFile(products=>{
-            products.push(this)
+            if(!this.id){
+                this.id=Math.random().toString()
+                products.push(this)
+            }
+            else
+                products=products.map(prod=>{
+                    return prod.id===this.id?this:prod
+                })
             fs.writeFile(fullPath,JSON.stringify(products),(err)=>{
                 console.log(err);
             })
@@ -40,6 +49,24 @@ module.exports=class Product {
         getProductsFromFile((products)=>{
             const product=products.find(p=>p.id===productId)
             cb(product)
+        })
+    }
+
+    static deleteProduct(id,result){
+        getProductsFromFile((products)=>{
+            let prod=products.find(pro=>pro.id===id)
+            let newProducts=products.filter(prod=>prod.id!==id)
+            if(newProducts.length===products.length){
+                result(false)
+                return
+            }
+            products=[...newProducts]
+            fs.writeFile(fullPath,JSON.stringify(products),(err)=>{
+                console.log(err);
+                Cart.deleteProductFromCart(id,prod.price,(deleted)=>{
+                    deleted?result(true):result(false)
+                })
+            })
         })
     }
 
