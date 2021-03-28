@@ -11,8 +11,11 @@ require('dotenv').config()
  */
 exports.addProduct=(req,res,next)=>{
     const product=new Product(req.body.title,null,req.body.price)
-    product.save()
-    res.status(201).json({message:process.env.SUCCESS_ADD_TO_CATALOG})
+    product.save((added)=>{
+        return added?
+        res.status(201).json({message:process.env.SUCCESS_ADD_TO_CATALOG}):
+        res.status(401).json({message:process.env.FAILURE_ADD_TO_CATALOG})
+    })
 }
 
 /**
@@ -50,7 +53,15 @@ exports.getAllProducts=(req,res,next)=>{
  */
 exports.getCart=(req,res,next)=>{
     Cart.getAllFromCart(cart=>{
-        res.status(200).json({cart:cart,message:process.env.SUCCESS_RETRIEVE_FROM_CART})
+        Product.getAll(products=>{
+            let cartProducts=[]
+            for(product of products){
+                const cartProductData=cart.products.find(prod=>prod.id===product.id)
+                if(cartProductData)
+                    cartProducts.push({productData:product,qty:cartProductData.qty})   
+            }
+            res.status(200).json({cart:{productList:cartProducts,totalPrice:cart.totalPrice},message:process.env.SUCCESS_RETRIEVE_FROM_CART})
+        })
     })
 }
 
@@ -61,8 +72,14 @@ exports.getCart=(req,res,next)=>{
  * @param {*} next 
  */
 exports.postCart=(req,res,next)=>{
-    Cart.addToCart(req.body.productId,req.body.productPrice)
-    res.status(201).json({message:process.env.SUCCESS_ADD_TO_CART})
+    const id=req.body.productId
+    Product.findProductById(id,(product)=>{
+        if(product){
+            Cart.addToCart(id,product.price)
+            return res.status(201).json({message:process.env.SUCCESS_ADD_TO_CART})
+        }
+        res.status(404).json({message:process.env.FAILURE_FIND_PRODUCT_BY_ID})
+    })
 }
 
 /**
@@ -73,10 +90,14 @@ exports.postCart=(req,res,next)=>{
  */
 exports.deleteProductFromCart=(req,res,next)=>{
     const id=req.body.productId
-    Cart.deleteProductFromCart(id,req.body.productPrice,(deleted)=>{
-        deleted?
-        res.status(201).json({message:process.env.SUCCESS_DELETE_FROM_CART}):
-        res.status(404).json({message:process.env.FAILURE_DELETE_FROM_CART})
+    Product.findProductById(id,(product)=>{
+        product?
+        Cart.deleteProductFromCart(id,product.price,(deleted)=>{
+            deleted?
+            res.status(201).json({message:process.env.SUCCESS_DELETE_FROM_CART}):
+            res.status(404).json({message:process.env.FAILURE_DELETE_FROM_CART})
+        }):
+        res.status(404).json({message:process.env.FAILURE_FIND_PRODUCT_BY_ID})
     })
 }
 
@@ -88,8 +109,15 @@ exports.deleteProductFromCart=(req,res,next)=>{
  */
 exports.editProduct=(req,res,next)=>{
     const prod=new Product(req.body.title,req.body.id,req.body.price)
-    prod.save()
-    res.status(201).json({message:process.env.SUCCESS_EDIT_PRODUCT})
+    Product.findProductById(prod.id,product=>{
+        product?
+        prod.save((edited)=>{
+            return edited?
+            res.status(200).json({message:process.env.SUCCESS_EDIT_TO_CATALOG}):
+            res.status(401).json({message:process.env.FAILURE_EDIT_TO_CATALOG})
+        }):
+        res.status(404).json({message:process.env.FAILURE_FIND_PRODUCT_BY_ID})
+    })
 }
 
 /**

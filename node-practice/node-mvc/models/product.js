@@ -22,10 +22,10 @@ module.exports=class Product {
     constructor(title,id,price){
         this.title=title
         this.id=id
-        this.price
+        this.price=price
     }
 
-    save(){
+    save(productAdded){
         getProductsFromFile(products=>{
             if(!this.id){
                 this.id=Math.random().toString()
@@ -36,7 +36,12 @@ module.exports=class Product {
                     return prod.id===this.id?this:prod
                 })
             fs.writeFile(fullPath,JSON.stringify(products),(err)=>{
+                if(!err){
+                    productAdded(true)
+                    return 
+                }
                 console.log(err);
+                productAdded(false)
             })
         })
     }
@@ -63,6 +68,7 @@ module.exports=class Product {
             products=[...newProducts]
             fs.writeFile(fullPath,JSON.stringify(products),(err)=>{
                 console.log(err);
+                console.log(prod);
                 Cart.deleteProductFromCart(id,prod.price,(deleted)=>{
                     deleted?result(true):result(false)
                 })

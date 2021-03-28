@@ -28,12 +28,12 @@ module.exports=class Cart{
 
     }
 
-    static getAllFromCart(cb){
+    static getAllFromCart(setCart){
         fs.readFile(fullPath,(err,fileContent)=>{
             let cart=[]
             if(!err)
                 cart=JSON.parse(fileContent)
-            cb(cart)
+            setCart(cart)
         })
     }
 
@@ -83,6 +83,7 @@ module.exports=class Cart{
                 }
                 cart.products=[...newProducts]
                 cart.totalPrice=cart.totalPrice - ((+productPrice)*prod.qty)
+                console.log(cart.totalPrice)
                 fs.writeFile(fullPath,JSON.stringify(cart),(error)=>{
                     console.log(error);
                     deleted(true)

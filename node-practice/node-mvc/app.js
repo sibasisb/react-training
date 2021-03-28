@@ -15,4 +15,9 @@ app.use('/',shopRouter)
 
 app.use('/',errorController.getError)
 
+app.use((error,req,res,next)=>{
+    //redirect to 500 page
+    res.status(error.httpStatusCode).json({message:"error occurred"})
+})
+
 app.listen(3002)
