@@ -1,13 +1,16 @@
 const router=require('express').Router()
 
-const productController=require('../controllers/products') 
+const getProductController=require('../controllers/getProducts')
+const postProductController=require('../controllers/postProducts')
+const deleteProductController=require('../controllers/deleteProducts') 
+const updateProductController=require('../controllers/updateProducts') 
 
-router.post('/addProduct',productController.addProduct)
+router.post('/addProduct',postProductController.addProduct)
 
-router.get('/getAllProducts',productController.getAllProducts)
+router.get('/getAllProducts',getProductController.getAllProducts)
 
-router.put('/editProduct',productController.editProduct)
+router.put('/editProduct',updateProductController.editProduct)
 
-router.delete('/deleteProduct',productController.deleteProduct)
+router.delete('/deleteProduct',deleteProductController.deleteProduct)
 
 module.exports=router
