@@ -17,7 +17,7 @@ app.use('/',errorController.getError)
 
 app.use((error,req,res,next)=>{
     //redirect to 500 page
-    res.status(error.httpStatusCode).json({message:"error occurred"})
+    res.status(error.httpStatusCode).json({message:error.message})
 })
 
 app.listen(3002)

@@ -10,6 +10,11 @@ require('dotenv').config()
  * @param {*} next 
  */
  exports.addProduct=(req,res,next)=>{
+    if(!req.body.title || !req.body.price){
+        const error=new Error("Invalid inputs")
+        error.httpStatusCode=422
+        throw error
+    }
     const product=new Product(req.body.title,null,req.body.price)
     product.save((added)=>{
         return added?
@@ -26,6 +31,11 @@ require('dotenv').config()
  */
  exports.postCart=(req,res,next)=>{
     const id=req.body.productId
+    if(!id){
+        const error=new Error("Invalid inputs")
+        error.httpStatusCode=422
+        throw error
+    }
     Product.findProductById(id,(product)=>{
         if(product){
             Cart.addToCart(id,product.price)

@@ -10,6 +10,11 @@ require('dotenv').config()
  * @param {*} next 
  */
  exports.editProduct=(req,res,next)=>{
+    if(!req.body.title || !req.body.price || !req.body.id){
+        const error=new Error("Invalid inputs")
+        error.httpStatusCode=422
+        throw error
+    }
     const prod=new Product(req.body.title,req.body.id,req.body.price)
     Product.findProductById(prod.id,product=>{
         product?
