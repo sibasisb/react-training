@@ -11,7 +11,7 @@ module.exports=class Product {
     save(){
         if(!this.id){
             let max=-1
-            products.forEach(prod=>max=max>Number(prod.id)?max:prod.id)
+            products.forEach(prod=>max=max>Number(prod.id)?max:Number(prod.id))
             let uid=max+1
             this.id=uid.toString()
             products.push(this)
@@ -38,7 +38,7 @@ module.exports=class Product {
     }
 
     static deleteProduct(productId){
-        newProducts=products.filter(prod=>prod.id===productId)
+        let newProducts=products.filter(prod=>prod.id!==productId)
         if(newProducts.length===products.length)
             return false
         products=newProducts

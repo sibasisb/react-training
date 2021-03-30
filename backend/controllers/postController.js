@@ -1,10 +1,18 @@
 const User=require('../models/user')
+const Product=require('../models/product')
+
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 
 require('dotenv').config()
 const KEY=process.env.SECRET_KEY
 
+/**
+ * Allows the user to sign in and get a token
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.signIn=(req,res)=>{
     const {email,password}=req.body
     if(!email || !password){
@@ -27,6 +35,12 @@ exports.signIn=(req,res)=>{
     })
 }
 
+/**
+ * Allows a user to sign up and get added to list of users
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.signUp=(req,res)=>{
     const user=req.user
     if(user.role!=="admin"){
@@ -47,3 +61,17 @@ exports.signUp=(req,res)=>{
     .catch(err=>console.log(err))
 }
 
+/**
+ * admin can add a product to list using Product model
+ */
+exports.addProduct=(req,res)=>{
+    const user=req.user
+    if(user.role!=="admin")
+        return res.status(403).json({message:process.env.FAILURE_PRODUCT_CREATION_AUTHORIZATION})
+    if(!req.body.title || !req.body.price || !req.body.description)
+        return res.status(422).json({message:process.env.FAILURE_PRODUCT_CREATION_INVALID_DETAILS})
+    const product=new Product(null,req.body.title,req.body.description,req.body.price)
+    return product.save()?
+    res.status(201).json({product:product,message:process.env.SUCCESS_PRODUCT_CREATION}):
+    res.status(500).json({message:process.env.FAILURE_PRODUCT_CREATION})
+}
