@@ -1,11 +1,11 @@
 let products=[]
 
 module.exports=class Product {
-    constructor(id,title,description,price){
+    constructor(id,title,description,price,imageUrl){
         this.id=id
         this.title=title
         this.description=description
-
+        this.imageUrl=imageUrl
     }
 
     save(){
