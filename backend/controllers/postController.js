@@ -72,7 +72,7 @@ exports.addProduct=(req,res)=>{
         return res.status(422).json({message:process.env.FAILURE_PRODUCT_CREATION_INVALID_DETAILS})
     if(!req.file)
         return res.status(422).json({message:process.env.FAILURE_PRODUCT_CREATION_INVALID_FILE})
-    const product=new Product(null,req.body.title,req.body.description,req.body.price,req.file.path)
+    const product=new Product(null,req.body.title,req.body.description,req.body.price,req.file.path.replace("\\","/"))
     return product.save()?
     res.status(201).json({product:product,message:process.env.SUCCESS_PRODUCT_CREATION}):
     res.status(500).json({message:process.env.FAILURE_PRODUCT_CREATION})

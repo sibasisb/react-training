@@ -40,9 +40,9 @@ exports.editProduct=(req,res)=>{
         return res.status(403).json({message:process.env.FAILURE_PRODUCT_UPDATE_AUTHORIZATION})
     if(!req.params.productId || !req.body.title || !req.body.price || !req.body.description)
         return res.status(422).json({message:process.env.FAILURE_PRODUCT_UPDATE_INVALID_DETAILS})
-    if(!req.file)
-        return res.status(422).json({message:process.env.FAILURE_PRODUCT_CREATION_INVALID_FILE})
-    const product=new Product(req.params.productId,req.body.title,req.body.description,req.body.price,req.file.path)
+    let imageUrl=req.file?req.file.path:null
+    imageUrl=imageUrl?imageUrl.replace("\\","/"):null
+    const product=new Product(req.params.productId,req.body.title,req.body.description,req.body.price,imageUrl)
     return product.save()?
     res.status(201).json({product:product,message:process.env.SUCCESS_PRODUCT_UPDATE}):
     res.status(400).json({message:process.env.FAILURE_PRODUCT_UPDATE})

@@ -1,3 +1,6 @@
+const fs=require('fs')
+const path=require('path')
+
 let products=[]
 
 module.exports=class Product {
@@ -20,6 +23,10 @@ module.exports=class Product {
         const product=products.find(prod=>prod.id===this.id)
         if(!product)
             return false
+        const imageUrl=product.imageUrl
+        if(this.imageUrl)
+            clearFile(imageUrl)
+        this.imageUrl=this.imageUrl?this.imageUrl:imageUrl
         products=products.map(prod=>{
             return (prod.id===this.id)?
             {...this}:
@@ -38,11 +45,19 @@ module.exports=class Product {
     }
 
     static deleteProduct(productId){
+        let productDeleted=products.find(prod=>prod.id===productId)
         let newProducts=products.filter(prod=>prod.id!==productId)
         if(newProducts.length===products.length)
             return false
         products=newProducts
+        let imageUrl=productDeleted.imageUrl
+        clearFile(imageUrl)
         return true
     }
 
+}
+
+const clearFile=filePath=>{
+    filePath=path.join(__dirname,'..',filePath)
+    fs.unlink(filePath,err=>console.log(err))
 }
