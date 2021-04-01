@@ -166,6 +166,24 @@ a {
     cursor: pointer;
 }
 
+.update-button {
+    color: #f2f2f2;
+    background-color: #5cb85c;    
+}
+
+.update-button:hover {
+    cursor:pointer
+}
+
+.delete-button:hover {
+    cursor:pointer;
+}
+
+.delete-button {
+    color: #f2f2f2;
+    background-color: #ff3333;    
+}
+
 .button-div {
     display: flex;
     justify-content: space-between;
@@ -250,4 +268,9 @@ th, td {
 
 .add-user-link button:hover{
     cursor: pointer;
+}
+
+.product-list-item {
+    display: flex;
+    justify-content: space-evenly;
 }

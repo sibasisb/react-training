@@ -11,6 +11,7 @@ const AdminSettings=()=>{
     const history=useHistory()
 
     useEffect(()=>{
+        
         axios.get('http://localhost:3001/auth/users')
         .then(res=>{
             setAlert(true)
@@ -18,6 +19,8 @@ const AdminSettings=()=>{
             newUsers=newUsers.filter(u=>u.userId!==userId)
             setUsers(newUsers)
         })
+        .catch(err=>console.log(err))
+
     },[])
 
     function onDelete(user){
