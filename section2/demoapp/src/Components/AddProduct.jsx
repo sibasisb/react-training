@@ -4,15 +4,13 @@ import {Link, useHistory, useParams} from 'react-router-dom'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
 
-const UpdateProduct=(props)=>{
-    const product=props.location.state.product
+const AddProduct=()=>{
     const [item,setItem]=useState({})
     const [showAlert,setShowAlert]=useState(false)
-    const userId=props.location.state.userId
+    const {userId}=useParams()
     const history=useHistory()
 
     useEffect(()=>{
-        setItem(product)
         const x=JSON.parse(localStorage.getItem("user"))
         if(x.userId!==userId){
             history.push('/unauthorized')
@@ -29,14 +27,15 @@ const UpdateProduct=(props)=>{
     }
 
     const handleSubmit=(e)=>{
-        e.preventDefault()
         
+        e.preventDefault()
+        console.log(item);
         const formData=new FormData()
         formData.append("title",item.title)
         formData.append("description",item.description)
         formData.append("price",item.price)
         formData.append("image",item.imageUrl)
-        axios.put(`http://localhost:3001/products/editProduct/${item.id}`,
+        axios.post(`http://localhost:3001/products/addProduct`,
         formData,
         getHeader())
         .then(res=>{
@@ -52,9 +51,9 @@ const UpdateProduct=(props)=>{
 
     const onReset=()=>{
         const newItem={ ...item}
-        newItem["title"]=product.title
-        newItem["description"]=product.description
-        newItem["price"]=product.price
+        newItem["title"]=""
+        newItem["description"]=""
+        newItem["price"]=""
         setShowAlert(false)
         setItem(newItem)
     }
@@ -62,7 +61,7 @@ const UpdateProduct=(props)=>{
     return (
         <section>
         <div className="card">
-            <div className="card-header">Edit Product here</div>
+            <div className="card-header">Add Product Details here</div>
             <div className="card-body">
             {
                 showAlert?(
@@ -105,4 +104,4 @@ const UpdateProduct=(props)=>{
     )
 }
 
-export default UpdateProduct
+export default AddProduct

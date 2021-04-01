@@ -274,3 +274,7 @@ th, td {
     display: flex;
     justify-content: space-evenly;
 }
+
+.product-description {
+    width: 20vw; 
+}

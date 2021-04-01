@@ -25,20 +25,6 @@ const ProductSettings=()=>{
             setAlert(true)
             if(res.status===200){
                 let newProducts=res.data.products
-                newProducts.push({
-                    id:"1",
-                    title:"Shimla Apple",
-                    description:"Juicy and sweet mouth-watering apples",
-                    price:450,
-                    imageUrl:"https://images.unsplash.com/photo-1589217157232-464b505b197f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                })
-                newProducts.push({
-                    id:"2",
-                    title:"Nagpur Oranges",
-                    description:"Juicy and sweet mouth-watering oranges",
-                    price:450,
-                    imageUrl:"https://images.unsplash.com/photo-1589217157232-464b505b197f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                })
                 setProducts(newProducts)
             }
         })
@@ -53,9 +39,21 @@ const ProductSettings=()=>{
         })
     }   
 
+    /**
+     * Function invoking endpoint to delete a product
+     * @param product 
+     */
     const deleteProduct=(product)=>{
-        let newProducts=products.filter(prod=>prod.id!==product.id)
-        setProducts(newProducts)
+
+        axios.delete(`http://localhost:3001/products/deleteProduct/${product.id}`,getHeader())
+        .then(res=>{
+            if(res.status===200){
+                let newProducts=products.filter(prod=>prod.id!==product.id)
+                setProducts(newProducts)
+            }
+        })
+        .catch(err=>console.log(err))
+
     }
 
     /**
@@ -67,14 +65,14 @@ const ProductSettings=()=>{
             return (
             <li key={index}>
                 <div className="product-list-item">
-                    <img src={product.imageUrl} alt="Prod image" width={"200 vw"} height={"200 vh"}/>
+                    <img src={`http://localhost:3001/${product.imageUrl}`} alt="Prod image" width={"200 vw"} height={"200 vh"}/>
                     <div className="product-description">
                         <ul>
                             <li>Product {product.id}</li>
                             <li>
                                 {product.title}
                             </li>
-                            <li>
+                            <li className="product-description-field">
                                 {product.description}
                             </li>
                             <li>
