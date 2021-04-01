@@ -278,3 +278,18 @@ th, td {
 .product-description {
     width: 20vw; 
 }
+
+.catalog-button-container {
+    margin: 4% auto; 
+    text-align: center;
+}
+
+.catalog-button {
+    background-color: #5cb85c;
+    color:#f2f2f2;
+    padding: 1%;
+}
+
+.catalog-button:hover {
+    cursor: pointer;
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../stylesheets/styles.css'
+import {Link} from 'react-router-dom'
 
 const Home=(props)=>{
     const [mySlides,setMySlides]=useState([])
@@ -73,6 +74,9 @@ const Home=(props)=>{
                     <div style={{textAlign:"center"}}>
                     {dots}
                     </div>
+                </div>
+                <div className="catalog-button-container">
+                    <Link to={`/productSettings/${props.location.state.user.userId}`}><button className="catalog-button">View Product Catalog</button></Link>
                 </div>
             </section>
         </div>

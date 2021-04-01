@@ -16,7 +16,7 @@ const ProductSettings=()=>{
 
     useEffect(()=>{
         const x=JSON.parse(localStorage.getItem("user"))
-        if(x.userId!==userId){
+        if(x.userId !== userId){
             history.push('/unauthorized')
             return
         }
@@ -79,10 +79,16 @@ const ProductSettings=()=>{
                                 Price: &#x20B9; {product.price}
                             </li>
                             <li>
-                            <div className="button-div">
-                                <button onClick={()=>{updateProduct(product)}} className="update-button">Update  <span className="material-icons">mode_edit</span></button>
-                                <button onClick={()=>{deleteProduct(product)}} className="delete-button">Delete  <span className="material-icons">delete_forever</span></button>
-                            </div>
+                            {
+                                JSON.parse(localStorage.getItem("user")).role==="admin"?
+                                (
+                                    <div className="button-div">
+                                        <button onClick={()=>{updateProduct(product)}} className="update-button">Update  <span className="material-icons">mode_edit</span></button>
+                                        <button onClick={()=>{deleteProduct(product)}} className="delete-button">Delete  <span className="material-icons">delete_forever</span></button>
+                                    </div>
+                                ):
+                                ""    
+                            }
                             </li>
                         </ul>
                     </div>
@@ -116,9 +122,15 @@ const ProductSettings=()=>{
                 ):
                 ""
             }
-            <div className="button-div">
-                <Link to={`/addProduct/${userId}`} className="add-user-link"><button>Add Product</button></Link>
-            </div>
+            {
+                JSON.parse(localStorage.getItem("user")).role==="admin"?
+                (
+                    <div className="button-div">
+                        <Link to={`/addProduct/${userId}`} className="add-user-link"><button>Add Product</button></Link>
+                    </div>
+                ):
+                ""
+            }
         </div>     
         </section>
     )

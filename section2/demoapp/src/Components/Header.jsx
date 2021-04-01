@@ -44,7 +44,7 @@ const Header=()=>{
                 }
 
                 <div className="logo">
-                    <Link to={""}>
+                    <Link to={user?{pathname:'/home',state:{user:user}}:"/"}>
                         <img src="https://th.bing.com/th/id/OIP.tbBQtTHmFj9B-1836hLRHAHaHa?pid=ImgDet&rs=1" alt="Brand logo" width="36" height="36"/>
                         <span style={{paddingLeft:"10px"}}>Vindigo</span>
                     </Link>
