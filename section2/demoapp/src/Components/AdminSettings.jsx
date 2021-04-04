@@ -1,12 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { lazy, Suspense, useContext, useEffect, useState } from 'react'
 import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
 
+const UsersList=lazy(()=>import('./UsersList'))
+
 const AdminSettings=()=>{
     const [users,setUsers]=useState([])
     const [alert,setAlert]=useState(false)
+    const [currentPage,setCurrentPage]=useState(1)
+    const [usersPerPage,setUsersPerPage]=useState(1)
     const {userId}=useParams()
     const history=useHistory()
 
@@ -37,9 +41,9 @@ const AdminSettings=()=>{
         })
     }
 
-    function displayRows(){
-        if(users){
-            return users.map((user,index)=>{    
+    function displayRows(currentUsers){
+        if(currentUsers){
+            return currentUsers.map((user,index)=>{    
                 return (
                     <tr key={index}>
                         <td>{user.userId}</td>
@@ -56,44 +60,20 @@ const AdminSettings=()=>{
         }
     }
 
+    // setting the page indices
+    const lastProductIndex=currentPage * usersPerPage
+    const firstProductIndex=lastProductIndex - usersPerPage
+    const currentUsers=users.slice(firstProductIndex,lastProductIndex)
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
         <section>
-        <div className="admin-table-view">
-            <div className="admin-table-header">
-                Manage your Users
-            </div>
-            {
-                alert?
-                (users.length===0?
-                (<div className="alert-box">
-                    <div className="alert-message">
-                        <span style={{color:"#0e141e"}}><h3>No users to show</h3></span>
-                    </div>
-                </div>):
-                (
-                    <div>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>User Id</th>
-                            <th>User name</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {displayRows()}
-                        </tbody>
-                    </table>
-                    </div>
-                )
-                ):
-                ""
-            }
-            <div className="button-div">
-                <Link to={`/addUser/${userId}`} className="add-user-link"><button>Add user</button></Link>
-            </div>
-        </div>     
+        <Suspense fallback={<h1>Loading...</h1>}>
+            <UsersList userId={userId} alert={alert} users={users} currentUsers={currentUsers}
+            paginate={paginate}  displayRows={displayRows} usersPerPage={usersPerPage} />
+        </Suspense>     
         </section>   
     )
 }
