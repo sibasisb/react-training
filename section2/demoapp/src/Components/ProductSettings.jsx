@@ -3,6 +3,7 @@ import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
+import Pagination from './Pagination'
 
 /**
  * Component to add, edit and delete products 
@@ -11,6 +12,8 @@ import { getHeader } from '../helpers/AuthHeader'
 const ProductSettings=()=>{
     const [products,setProducts]=useState([])
     const [alert,setAlert]=useState(false)
+    const [currentPage,setCurrentPage]=useState(1)
+    const [productsPerPage,setProductsPerPage]=useState(1)
     const {userId}=useParams()
     const history=useHistory()
 
@@ -60,8 +63,8 @@ const ProductSettings=()=>{
      * Function which maps each product into a wrapper JSX
      * @returns JSX element
      */
-    const displayProducts=()=>{
-        return products.map((product,index)=>{
+    const displayProducts=(currentProducts)=>{
+        return currentProducts.map((product,index)=>{
             return (
             <li key={index}>
                 <div className="product-list-item">
@@ -98,11 +101,19 @@ const ProductSettings=()=>{
         })
     }
 
+    // setting the page indices
+    const lastProductIndex=currentPage * productsPerPage
+    const firstProductIndex=lastProductIndex - productsPerPage
+    const currentProducts=products.slice(firstProductIndex,lastProductIndex)
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
         <section>
         <div className="admin-table-view">
             <div className="admin-table-header">
-                Manage Products
+                Product Catalog
             </div>
             {
                 alert?
@@ -115,8 +126,13 @@ const ProductSettings=()=>{
                 (
                     <div className="gallery">
                         <ul>
-                            {displayProducts()}
+                            {displayProducts(currentProducts)}
                         </ul>
+                        <Pagination
+                            productsPerPage={productsPerPage}
+                            totalProducts={products.length}
+                            paginate={paginate}
+                        />
                     </div>
                 )
                 ):

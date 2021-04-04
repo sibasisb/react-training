@@ -293,3 +293,21 @@ th, td {
 .catalog-button:hover {
     cursor: pointer;
 }
+
+.pagination {
+    display: inline-flex;
+    float: center;
+}
+
+.page-item {
+    background-color: #333333;
+}
+
+.page-item:hover{
+    cursor: pointer;
+}
+
+.page-link {
+    color: #f2f2f2;
+}
+  

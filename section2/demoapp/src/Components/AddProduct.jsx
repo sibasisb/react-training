@@ -90,7 +90,7 @@ const AddProduct=()=>{
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="file" name="imageUrl" onChange={handleChangeProduct}/>
                 </div>
                 {
-                    (item.title==="" || item.description==="" || !item.imageUrl)?
+                    (!item.title || !item.description==="" || !item.price || !item.imageUrl)?
                     (""):
                     (<div className="button-div">
                         <input type="submit" className="login-button" value="Save" />
