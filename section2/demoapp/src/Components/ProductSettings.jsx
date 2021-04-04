@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, lazy, Suspense } from 'react'
 import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
-import Pagination from './Pagination'
+
+//lazily load ProductCatalog component
+const ProductCatalog=lazy(()=>import('./ProductCatalog'))
 
 /**
  * Component to add, edit and delete products 
@@ -111,43 +113,10 @@ const ProductSettings=()=>{
 
     return (
         <section>
-        <div className="admin-table-view">
-            <div className="admin-table-header">
-                Product Catalog
-            </div>
-            {
-                alert?
-                (products.length===0?
-                (<div className="alert-box">
-                    <div className="alert-message">
-                        <span style={{color:"#0e141e"}}><h3>No products to show</h3></span>
-                    </div>
-                </div>):
-                (
-                    <div className="gallery">
-                        <ul>
-                            {displayProducts(currentProducts)}
-                        </ul>
-                        <Pagination
-                            productsPerPage={productsPerPage}
-                            totalProducts={products.length}
-                            paginate={paginate}
-                        />
-                    </div>
-                )
-                ):
-                ""
-            }
-            {
-                JSON.parse(localStorage.getItem("user")).role==="admin"?
-                (
-                    <div className="button-div">
-                        <Link to={`/addProduct/${userId}`} className="add-user-link"><button>Add Product</button></Link>
-                    </div>
-                ):
-                ""
-            }
-        </div>     
+        <Suspense fallback={<h1>Loading...</h1>}>
+            <ProductCatalog userId={userId} alert={alert} products={products} currentProducts={currentProducts} 
+            displayProducts={displayProducts} productsPerPage={productsPerPage} paginate={paginate} />     
+        </Suspense>
         </section>
     )
 }
