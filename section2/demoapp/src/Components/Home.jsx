@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import '../stylesheets/styles.css'
 import {Link} from 'react-router-dom'
 
-const Home=(props)=>{
+const HomeWithoutMemo=(props)=>{
     const [mySlides,setMySlides]=useState([])
     const [dots,setDots]=useState([])
     const [mySlideIndex,setIndex]=useState(1)
@@ -82,5 +82,7 @@ const Home=(props)=>{
         </div>
     )
 } 
+
+const Home=memo(HomeWithoutMemo)
 
 export default Home;
