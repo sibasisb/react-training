@@ -4,7 +4,7 @@ import {Link, useHistory, useParams} from 'react-router-dom'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
 
-const UsersList=lazy(()=>import('./UsersList'))
+const UsersListMemo=lazy(()=>import('./UsersList'))
 
 const AdminSettings=()=>{
     const [users,setUsers]=useState([])
@@ -71,7 +71,7 @@ const AdminSettings=()=>{
     return (
         <section>
         <Suspense fallback={<h1>Loading...</h1>}>
-            <UsersList userId={userId} alert={alert} users={users} currentUsers={currentUsers}
+            <UsersListMemo userId={userId} alert={alert} users={users} currentUsers={currentUsers}
             paginate={paginate}  displayRows={displayRows} usersPerPage={usersPerPage} />
         </Suspense>     
         </section>   

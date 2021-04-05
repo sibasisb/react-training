@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import {Link} from 'react-router-dom'
 import '../stylesheets/styles.css'
 import Pagination from './Pagination'
@@ -45,4 +45,6 @@ const ProductCatalog=({userId,alert,products,currentProducts,displayProducts,pro
     )
 }
 
-export default ProductCatalog
+const MemoProductCatalog=memo(ProductCatalog)
+
+export default MemoProductCatalog

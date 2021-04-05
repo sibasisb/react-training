@@ -5,7 +5,7 @@ import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
 
 //lazily load ProductCatalog component
-const ProductCatalog=lazy(()=>import('./ProductCatalog'))
+const MemoProductCatalog=lazy(()=>import('./ProductCatalog'))
 
 /**
  * Component to add, edit and delete products 
@@ -114,7 +114,7 @@ const ProductSettings=()=>{
     return (
         <section>
         <Suspense fallback={<h1>Loading...</h1>}>
-            <ProductCatalog userId={userId} alert={alert} products={products} currentProducts={currentProducts} 
+            <MemoProductCatalog userId={userId} alert={alert} products={products} currentProducts={currentProducts} 
             displayProducts={displayProducts} productsPerPage={productsPerPage} paginate={paginate} />     
         </Suspense>
         </section>

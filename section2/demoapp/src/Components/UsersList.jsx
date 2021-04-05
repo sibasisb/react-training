@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import {Link} from 'react-router-dom'
 import '../stylesheets/styles.css'
 import Pagination from './Pagination'
@@ -49,4 +49,6 @@ const UsersList=({userId,alert,users,displayRows,usersPerPage,paginate,currentUs
     )
 }
 
-export default UsersList
+const UsersListMemo=memo(UsersList)
+
+export default UsersListMemo
