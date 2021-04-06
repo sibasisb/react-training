@@ -1,23 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import '../stylesheets/styles.css'
 import { Link, useHistory } from 'react-router-dom';
-import { UserContext } from "../App";
+import store from "../store/store";
 
 const Header=()=>{
-    const {state,dispatch}=useContext(UserContext)
     const [user,setUser]=useState(null)
     const history=useHistory()
+    
     useEffect(()=>{
         const newUser=JSON.parse(localStorage.getItem("user"))
-        if(newUser)
-            setUser(newUser)
-        else
-            setUser(null)
-        
-    },[state])
+        setUser(newUser?newUser:null)
+    },[])
+
+    store.subscribe(()=>{
+        const newUser=store.getState().user?store.getState().user:null
+        setUser(newUser)
+    })
 
     function handleLogout(){
-        dispatch({type:"USER_LOGOUT",payload:{}})    
+        store.dispatch({type:"USER_LOGOUT",payload:{}})
         history.push('/')
     }
     return (

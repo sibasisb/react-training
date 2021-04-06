@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react'
-import { UserContext } from '../App'
 import '../stylesheets/styles.css'
 import axios from 'axios'
+import store from '../store/store'
 
 const LoginComponent=({history})=>{
 
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
     const [showAlert,setShowAlert]=useState(false)
-    const {dispatch}=useContext(UserContext)
     function handleSubmit(e){
         e.preventDefault()
         if(email===null || email.length===0 || password===null || password.length===0){
@@ -30,8 +29,9 @@ const LoginComponent=({history})=>{
             if(!newUser){
                 setShowAlert(true)
                 return
-            }               
-            dispatch({type:"USER_LOGIN",payload:{user:newUser,token:res.data.token}})
+            }     
+            store.dispatch({type:"USER_LOGIN",payload:{user:newUser,token:res.data.token}})
+            console.log(store.getState());
             history.push({
                 pathname:'/home',
                 state:{user:newUser}

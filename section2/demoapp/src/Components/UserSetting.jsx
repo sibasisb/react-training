@@ -1,13 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
-import { UserContext } from '../App'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
+import store from '../store/store'
 
 const UserSetting=()=>{
     const {userId}=useParams()
-    const {state,dispatch}=useContext(UserContext)
     const history=useHistory()
 
     useEffect(()=>{
@@ -25,7 +24,7 @@ const UserSetting=()=>{
             if(res.status!==200){
                 return 
             }
-            dispatch({type:"USER_LOGOUT",payload:{}})
+            store.dispatch({type:"USER_LOGOUT",payload:{}})
             history.push('/')
         })
         .catch(err=>{

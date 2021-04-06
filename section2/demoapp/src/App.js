@@ -5,7 +5,6 @@ import LoginComponent from "./Components/LoginComponent";
 import Home from "./Components/Home";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import userReducer, { initialState } from './reducers/userReducer';
 import UpdateUser from './Components/UpdateUser';
 import PrivateRoute from './Components/PrivateRoute';
 import Unauthorized from './Components/Unauthorized';
@@ -15,7 +14,6 @@ import ProductSettings from './Components/ProductSettings';
 import UpdateProduct from './Components/UpdateProduct';
 import AddProduct from './Components/AddProduct';
 
-export const UserContext = createContext();
 
 const Routing=()=>{
   return (
@@ -35,16 +33,13 @@ const Routing=()=>{
 }
 
 function App() {
-  const [state, dispatch] = useReducer(userReducer, initialState);
-
+  
   return (
-    <UserContext.Provider value={{state,dispatch}}>
     <BrowserRouter>
     <Header/>
     <Routing/>
     <Footer/>
     </BrowserRouter>
-    </UserContext.Provider>
   );
 }
 

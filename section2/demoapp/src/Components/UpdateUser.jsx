@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect} from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import '../stylesheets/styles.css'
 import {storage} from '../firebase'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
-import { UserContext } from '../App'
+import store from '../store/store'
 
 const UpdateUser=()=>{
     const {userId,adminId}=useParams()
@@ -15,7 +15,6 @@ const UpdateUser=()=>{
     const [image,setImage]=useState("")
     const [user,setUser]=useState({})
     const [showAlert,setShowAlert]=useState(false)
-    const {dispatch}=useContext(UserContext)
     const history=useHistory()
 
     useEffect(()=>{
@@ -63,7 +62,7 @@ const UpdateUser=()=>{
                 }
                 else{
                     localStorage.setItem("user",JSON.stringify({...newUser,password:undefined}))
-                    dispatch({type:"USER_UPDATE",payload:{user:{...newUser,password:undefined}}})
+                    store.dispatch({type:"USER_UPDATE",payload:{user:{...newUser,password:undefined}}})
                     history.push({
                         pathname:'/home',
                         state:{user:newUser}
@@ -102,7 +101,7 @@ const UpdateUser=()=>{
                     }
                     else{
                         localStorage.setItem("user",JSON.stringify({...newUser,password:undefined}))
-                        dispatch({type:"USER_UPDATE",payload:{user:{...newUser,password:undefined}}})
+                        store.dispatch({type:"USER_UPDATE",payload:{user:{...newUser,password:undefined}}})
                         history.push({
                             pathname:'/home',
                             state:{user:newUser}
