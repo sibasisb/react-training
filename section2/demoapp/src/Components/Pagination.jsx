@@ -12,7 +12,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate,moveLeft,moveRigh
     <nav>    
       <ul className='pagination'>
         <li onClick={() => moveLeft()} className='page-item'>
-        <span class="material-icons page-link">
+        <span className="material-icons page-link">
           arrow_left
         </span>
         </li>
@@ -24,7 +24,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate,moveLeft,moveRigh
           </li>
         ))}
         <li onClick={() => moveRight()} className='page-item'>
-        <span class="material-icons page-link">
+        <span className="material-icons page-link">
           arrow_right
         </span>
         </li>

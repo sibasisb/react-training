@@ -1,14 +1,10 @@
 import axios from 'axios'
+import { getHeader } from '../../helpers/AuthHeader'
 
-export const requestSignin=(action)=>{
-    return axios.request(
-        {
-            method:'post',
-            url:'http://localhost:3001/auth/signin',
-            data:{
-                email:action.email,
-                password:action.password
-            }
-        }
-    )
+export const fetchUsers=()=>{
+    return axios.get('http://localhost:3001/auth/users')
+}
+
+export const deleteUser=(action)=>{
+    return axios.delete(`http://localhost:3001/auth/${action.user.userId}`,getHeader())
 }

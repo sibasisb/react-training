@@ -3,42 +3,45 @@ import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
+import { useDispatch, useSelector } from 'react-redux'
 
 const UsersListMemo=lazy(()=>import('./UsersList'))
 
 const AdminSettings=()=>{
-    const [users,setUsers]=useState([])
-    const [alert,setAlert]=useState(false)
+    // const [users,setUsers]=useState([])
+    // const [alert,setAlert]=useState(false)
     const [currentPage,setCurrentPage]=useState(1)
     const [usersPerPage,setUsersPerPage]=useState(1)
     const {userId}=useParams()
-    const history=useHistory()
+    const dispatch=useDispatch()
 
     useEffect(()=>{
         
-        axios.get('http://localhost:3001/auth/users')
-        .then(res=>{
-            setAlert(true)
-            let newUsers=res.data.users
-            newUsers=newUsers.filter(u=>u.userId!==userId)
-            setUsers(newUsers)
-        })
-        .catch(err=>console.log(err))
-
-    },[])
+        // axios.get('http://localhost:3001/auth/users')
+        // .then(res=>{
+        //     setAlert(true)
+        //     let newUsers=res.data.users
+        //     newUsers=newUsers.filter(u=>u.userId!==userId)
+        //     setUsers(newUsers)
+        // })
+        // .catch(err=>console.log(err))
+        dispatch({type:"FETCH_USERS_SAGA",userId})
+    },[dispatch])
 
     function onDelete(user){
-        axios.delete(`http://localhost:3001/auth/${user.userId}`,getHeader())
-        .then(res=>{
-            if(res.status!==200){
-                return 
-            }
-            let newUsers=users.filter(u=>u.userId!==user.userId)
-            setUsers(newUsers)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+        // axios.delete(`http://localhost:3001/auth/${user.userId}`,getHeader())
+        // .then(res=>{
+        //     if(res.status!==200){
+        //         return 
+        //     }
+        //     let newUsers=users.filter(u=>u.userId!==user.userId)
+        //     setUsers(newUsers)
+        // })
+        // .catch(err=>{
+        //     console.log(err)
+        // })
+        dispatch({type:"DELETE_USER_SAGA",user,userId})
+
     }
 
     function displayRows(currentUsers){
@@ -60,10 +63,13 @@ const AdminSettings=()=>{
         }
     }
 
+    //setting users
+    const users=useSelector((state)=>state.usersList)
+    const alert=users?true:false
     // setting the page indices
     const lastProductIndex=currentPage * usersPerPage
     const firstProductIndex=lastProductIndex - usersPerPage
-    const currentUsers=users.slice(firstProductIndex,lastProductIndex)
+    const currentUsers=users?.slice(firstProductIndex,lastProductIndex)
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);

@@ -3,6 +3,7 @@ import '../stylesheets/styles.css'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
+import { useDispatch, useSelector } from 'react-redux'
 
 //lazily load ProductCatalog component
 const MemoProductCatalog=lazy(()=>import('./ProductCatalog'))
@@ -12,12 +13,13 @@ const MemoProductCatalog=lazy(()=>import('./ProductCatalog'))
  * @returns a component to provide adjustment of products to admin
  */
 const ProductSettings=()=>{
-    const [products,setProducts]=useState([])
-    const [alert,setAlert]=useState(false)
+    // const [products,setProducts]=useState([])
+    // const [alert,setAlert]=useState(false)
     const [currentPage,setCurrentPage]=useState(1)
     const [productsPerPage,setProductsPerPage]=useState(1)
     const {userId}=useParams()
     const history=useHistory()
+    const dispatch=useDispatch()
 
     useEffect(()=>{
         const x=JSON.parse(localStorage.getItem("user"))
@@ -25,17 +27,19 @@ const ProductSettings=()=>{
             history.push('/unauthorized')
             return
         }
-        axios.get('http://localhost:3001/products/getAllProducts',getHeader())
-        .then(res=>{
-            setAlert(true)
-            if(res.status===200){
-                let newProducts=res.data.products
-                setProducts(newProducts)
-            }
-        })
-        .catch(err=>console.log(err))
+        // axios.get('http://localhost:3001/products/getAllProducts',getHeader())
+        // .then(res=>{
+        //     setAlert(true)
+        //     if(res.status===200){
+        //         let newProducts=res.data.products
+        //         setProducts(newProducts)
+        //     }
+        // })
+        // .catch(err=>console.log(err))
 
-    },[])
+        dispatch({type:"FETCH_PRODUCTS_SAGA"})
+
+    },[dispatch])
 
     const updateProduct=(product)=>{
         history.push({
@@ -49,16 +53,7 @@ const ProductSettings=()=>{
      * @param product 
      */
     const deleteProduct=(product)=>{
-
-        axios.delete(`http://localhost:3001/products/deleteProduct/${product.id}`,getHeader())
-        .then(res=>{
-            if(res.status===200){
-                let newProducts=products.filter(prod=>prod.id!==product.id)
-                setProducts(newProducts)
-            }
-        })
-        .catch(err=>console.log(err))
-
+        dispatch({type:"DELETE_PRODUCT_SAGA",payload:{product:product}})
     }
 
     /**
@@ -103,10 +98,14 @@ const ProductSettings=()=>{
         })
     }
 
+    //setting users
+    const products=useSelector((state)=>state.productsList)
+    const alert=products?true:false
+
     // setting the page indices
     const lastProductIndex=currentPage * productsPerPage
     const firstProductIndex=lastProductIndex - productsPerPage
-    const currentProducts=products.slice(firstProductIndex,lastProductIndex)
+    const currentProducts=products?.slice(firstProductIndex,lastProductIndex)
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
