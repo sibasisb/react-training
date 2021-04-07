@@ -13,6 +13,7 @@ import AddUser from './Components/AddUser';
 import ProductSettings from './Components/ProductSettings';
 import UpdateProduct from './Components/UpdateProduct';
 import AddProduct from './Components/AddProduct';
+import ErrorBoundary from './Components/ErrorBoundary';
 
 
 const Routing=()=>{
@@ -36,9 +37,13 @@ function App() {
   
   return (
     <BrowserRouter>
+    <ErrorBoundary>
     <Header/>
+    </ErrorBoundary>
     <Routing/>
+    <ErrorBoundary>
     <Footer/>
+    </ErrorBoundary>
     </BrowserRouter>
   );
 }
