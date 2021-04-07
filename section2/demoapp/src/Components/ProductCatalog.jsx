@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import '../stylesheets/styles.css'
 import Pagination from './Pagination'
 
-const ProductCatalog=({userId,alert,products,currentProducts,displayProducts,productsPerPage,paginate})=>{
+const ProductCatalog=({userId,alert,products,currentProducts,displayProducts,productsPerPage,paginate,moveLeft,moveRight})=>{
     return (
         <div className="admin-table-view">
             <div className="admin-table-header">
@@ -26,6 +26,8 @@ const ProductCatalog=({userId,alert,products,currentProducts,displayProducts,pro
                             productsPerPage={productsPerPage}
                             totalProducts={products.length}
                             paginate={paginate}
+                            moveLeft={moveLeft}
+                            moveRight={moveRight}
                         />
                     </div>
                 )

@@ -67,12 +67,15 @@ const AdminSettings=()=>{
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
+    const moveLeft = ()=> setCurrentPage(currentPage>1?currentPage-1:currentPage) 
+    const moveRight = ()=> setCurrentPage(currentPage<Math.ceil((users.length/currentUsers.length))?currentPage+1:currentPage)
 
     return (
         <section>
         <Suspense fallback={<h1>Loading...</h1>}>
             <UsersListMemo userId={userId} alert={alert} users={users} currentUsers={currentUsers}
-            paginate={paginate}  displayRows={displayRows} usersPerPage={usersPerPage} />
+            paginate={paginate}  displayRows={displayRows} usersPerPage={usersPerPage}
+            moveLeft={moveLeft} moveRight={moveRight} />
         </Suspense>     
         </section>   
     )

@@ -110,12 +110,15 @@ const ProductSettings=()=>{
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
+    const moveLeft = ()=> setCurrentPage(currentPage>1?currentPage-1:currentPage) 
+    const moveRight = ()=> setCurrentPage(currentPage<Math.ceil((products.length/currentProducts.length))?currentPage+1:currentPage)
 
     return (
         <section>
         <Suspense fallback={<h1>Loading...</h1>}>
             <MemoProductCatalog userId={userId} alert={alert} products={products} currentProducts={currentProducts} 
-            displayProducts={displayProducts} productsPerPage={productsPerPage} paginate={paginate} />     
+            displayProducts={displayProducts} productsPerPage={productsPerPage} paginate={paginate} moveLeft={moveLeft}
+            moveRight={moveRight}/>     
         </Suspense>
         </section>
     )

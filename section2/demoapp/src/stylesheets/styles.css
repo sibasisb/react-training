@@ -305,6 +305,7 @@ th, td {
 
 .page-item:hover{
     cursor: pointer;
+    background-color: #5cb85c;
 }
 
 .page-link {
