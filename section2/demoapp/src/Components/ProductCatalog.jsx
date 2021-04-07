@@ -11,7 +11,7 @@ const ProductCatalog=({userId,alert,products,currentProducts,displayProducts,pro
             </div>
             {
                 alert?
-                (products.length===0?
+                (products?.length===0?
                 (<div className="alert-box">
                     <div className="alert-message">
                         <span style={{color:"#0e141e"}}><h3>No products to show</h3></span>

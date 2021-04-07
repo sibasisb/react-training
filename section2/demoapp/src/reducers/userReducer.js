@@ -1,8 +1,8 @@
 export const initialState={
     user:localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null,
     token:localStorage.getItem("token")?localStorage.getItem("token"):null,
-    usersList:[],
-    productsList:[]
+    usersList:undefined,
+    productsList:undefined
 }
 
 export const userReducer=(state,action)=>{

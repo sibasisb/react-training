@@ -11,7 +11,7 @@ const UsersList=({userId,alert,users,displayRows,usersPerPage,paginate,currentUs
             </div>
             {
                 alert?
-                (users.length===0?
+                (users?.length===0?
                 (<div className="alert-box">
                     <div className="alert-message">
                         <span style={{color:"#0e141e"}}><h3>No users to show</h3></span>

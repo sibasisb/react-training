@@ -65,7 +65,7 @@ const AdminSettings=()=>{
 
     //setting users
     const users=useSelector((state)=>state.usersList)
-    const alert=users?true:false
+    const alert=Array.isArray(users)?true:false
     // setting the page indices
     const lastProductIndex=currentPage * usersPerPage
     const firstProductIndex=lastProductIndex - usersPerPage

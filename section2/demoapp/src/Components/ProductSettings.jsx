@@ -98,9 +98,9 @@ const ProductSettings=()=>{
         })
     }
 
-    //setting users
+    //setting products
     const products=useSelector((state)=>state.productsList)
-    const alert=products?true:false
+    const alert=Array.isArray(products)?true:false
 
     // setting the page indices
     const lastProductIndex=currentPage * productsPerPage
