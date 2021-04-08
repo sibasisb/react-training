@@ -35,6 +35,7 @@ const AddProduct=()=>{
         formData.append("description",item.description)
         formData.append("price",item.price)
         formData.append("image",item.imageUrl)
+        formData.append("expiryDate",item.expiryDate)
         axios.post(`http://localhost:3001/products/addProduct`,
         formData,
         getHeader())
@@ -54,6 +55,7 @@ const AddProduct=()=>{
         newItem["title"]=""
         newItem["description"]=""
         newItem["price"]=""
+        newItem["expiryDate"]=null
         setShowAlert(false)
         setItem(newItem)
     }
@@ -89,8 +91,12 @@ const AddProduct=()=>{
                 <label htmlFor="imageUrl">Picture of product</label><br/>
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="file" name="imageUrl" onChange={handleChangeProduct}/>
                 </div>
+                <div className="input-div">
+                <label htmlFor="expiryDate">Expiry Date</label><br/>
+                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="date" name="expiryDate" onChange={handleChangeProduct} value={item.expiryDate} />
+                </div>
                 {
-                    (!item.title || !item.description==="" || !item.price || !item.imageUrl)?
+                    (!item.title || !item.description==="" || !item.price || !item.imageUrl || !item.expiryDate)?
                     (""):
                     (<div className="button-div">
                         <input type="submit" className="login-button" value="Save" />

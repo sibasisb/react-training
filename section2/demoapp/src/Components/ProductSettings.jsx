@@ -79,6 +79,9 @@ const ProductSettings=()=>{
                                 Price: &#x20B9; {product.price}
                             </li>
                             <li>
+                                Expriry Date: {product.expiryDate}
+                            </li>
+                            <li>
                             {
                                 JSON.parse(localStorage.getItem("user")).role==="admin"?
                                 (

@@ -11,6 +11,7 @@ const AddUser=()=>{
     const [firstName,setFirstName]=useState("")
     const [lastName,setLastName]=useState("")
     const [password,setPassword]=useState("")
+    const [dob,setDob]=useState()
     const [pic,setPic]=useState("")
     const [image,setImage]=useState("")
     const [showAlert,setShowAlert]=useState(false)
@@ -26,7 +27,7 @@ const AddUser=()=>{
 
     const handleSubmit=(e)=>{
         e.preventDefault()
-        if(firstName===null || firstName.length===0 || password===null || password.length<4){
+        if(firstName===null || firstName.length===0 || password===null || password.length<4 || !dob){
             setShowAlert(true)
             return;
         }
@@ -42,6 +43,7 @@ const AddUser=()=>{
                 firstName,
                 lastName,
                 password,
+                dob,
                 pic
             }
             axios.post(`http://localhost:3001/auth/signup`,
@@ -81,6 +83,7 @@ const AddUser=()=>{
                     firstName,
                     lastName,
                     password,
+                    dob,
                     pic:url
                 }
                 axios.post(`http://localhost:3001/auth/signup`,
@@ -120,6 +123,7 @@ const AddUser=()=>{
         setLastName("")
         setPassword("")
         setImage("")
+        setDob(null)
         setShowAlert(false)
     }
 
@@ -132,7 +136,7 @@ const AddUser=()=>{
                 showAlert?(
                 <div className="alert-box">
                     <div className="alert-message">
-                        <span style={{color:"#0e141e"}}>Invalid email/first name/password</span>
+                        <span style={{color:"#0e141e"}}>Invalid email/first name/password/DOB</span>
                     </div>
                 </div>):
                 ""
@@ -155,11 +159,15 @@ const AddUser=()=>{
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="password" name="password" placeholder="Password" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
                 </div>
                 <div className="input-div">
+                <label htmlFor="dob">Date of Birth</label><br/>
+                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="date" name="dob" placeholder="Date in yyyy-mm-dd" value={dob} onChange={(e)=>{setDob(e.target.value)}}/>
+                </div>
+                <div className="input-div">
                 <label htmlFor="pic">Upload profile picture</label><br/>
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="file" name="pic"  onChange={(e)=>{setImage(e.target.files[0])}}/>
                 </div>
                 {
-                    (email==="" || password==="" || firstName==="")?
+                    (email==="" || password==="" || firstName==="" || !dob)?
                     (""):
                     (<div className="button-div">
                         <input type="submit" className="login-button" value="Signup" />

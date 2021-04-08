@@ -10,6 +10,7 @@ const UpdateUser=()=>{
     const {userId,adminId}=useParams()
     const [firstName,setFirstName]=useState("")
     const [lastName,setLastName]=useState("")
+    const [dob,setDob]=useState()
     const [password,setPassword]=useState("")
     const [pic,setPic]=useState("")
     const [image,setImage]=useState("")
@@ -30,6 +31,7 @@ const UpdateUser=()=>{
                 setFirstName(res.data.user.firstName)
                 setLastName(res.data.user.lastName)
                 setPic(res.data.user.pic)
+                setDob(res.data.user.dob)
             }
         })
         .catch(err=>{
@@ -39,7 +41,7 @@ const UpdateUser=()=>{
 
     function handleSubmit(e){
         e.preventDefault()
-        if(firstName===null || firstName.length===0 || password===null || password.length<4){
+        if(firstName===null || firstName.length===0 || password===null || password.length<4 || !dob){
             setShowAlert(true)
             return;
         }
@@ -48,7 +50,8 @@ const UpdateUser=()=>{
                 ...user,
                 firstName,
                 lastName,
-                password
+                password,
+                dob
             }
             axios.put(`http://localhost:3001/auth/${userId}`,
             newUser,getHeader())
@@ -87,6 +90,7 @@ const UpdateUser=()=>{
                     firstName,
                     lastName,
                     password,
+                    dob,
                     pic:url
                 }
                 axios.put(`http://localhost:3001/auth/${userId}`,
@@ -125,6 +129,7 @@ const UpdateUser=()=>{
         setLastName("")
         setPic("")
         setPassword("")
+        setDob(null)
         setShowAlert(false)
     }
 
@@ -156,6 +161,10 @@ const UpdateUser=()=>{
                 <div className="input-div">
                 <label htmlFor="password">Password</label><br/>
                 <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="password" name="password" placeholder="Password" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
+                </div>
+                <div className="input-div">
+                <label htmlFor="dob">Date of Birth</label><br/>
+                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="date" name="dob" placeholder="Date in yyyy-mm-dd" value={dob} onChange={(e)=>{setDob(e.target.value)}}/>
                 </div>
                 <div className="input-div">
                 <label htmlFor="pic">Upload profile picture</label><br/>

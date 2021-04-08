@@ -18,12 +18,13 @@ const UsersList=({userId,alert,users,displayRows,usersPerPage,paginate,currentUs
                     </div>
                 </div>):
                 (
-                    <div>
+                <>
                     <table>
                         <thead>
                         <tr>
                             <th>User Id</th>
                             <th>User name</th>
+                            <th>Age</th>
                             <th>Update</th>
                             <th>Delete</th>
                         </tr>
@@ -39,7 +40,7 @@ const UsersList=({userId,alert,users,displayRows,usersPerPage,paginate,currentUs
                         moveLeft={moveLeft}
                         moveRight={moveRight}
                     />
-                    </div>
+                </>
                 )
                 ):
                 ""

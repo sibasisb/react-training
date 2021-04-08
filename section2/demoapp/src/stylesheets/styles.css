@@ -232,6 +232,14 @@ ul {
         width:30vw;
         height:30vh;
     }
+    .admin-table-view{
+        width:max-content;
+        min-width: 80vw;
+        margin: calc(20px + 8vh) 10vw 5% 10vw;
+    }
+    table{
+        margin-right:20%;
+    }
 }
 
   .material-icons:hover {

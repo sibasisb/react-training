@@ -4,12 +4,13 @@ const path=require('path')
 let products=[]
 
 module.exports=class Product {
-    constructor(id,title,description,price,imageUrl){
+    constructor(id,title,description,price,imageUrl,expiryDate){
         this.id=id
         this.title=title
         this.price=price
         this.description=description
         this.imageUrl=imageUrl
+        this.expiryDate=expiryDate
     }
 
     save(){

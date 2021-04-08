@@ -51,6 +51,7 @@ const AdminSettings=()=>{
                     <tr key={index}>
                         <td>{user.userId}</td>
                         <td>{`${user.firstName} ${user.lastName}`}</td>
+                        <td>{new Date().getFullYear()-Number(user?.dob?.substring(0,4))}</td>
                         <td>
                         <Link to={`/updateUser/${user.userId}/${userId}`}><span className="material-icons" style={{color:"black", fontSize: "2rem"}}>mode_edit</span></Link>
                         </td>
