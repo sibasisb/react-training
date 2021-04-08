@@ -128,7 +128,6 @@ a {
 
 .myform {
     margin:1% auto 5% auto;
-    max-width: 1600px;
 }
 
 .login-button{
@@ -216,6 +215,25 @@ ul {
     padding: 12px;
   }
 
+@media screen and (max-width: 600px) {
+    .card {
+        width: 70%;
+        margin: 5% 15% 5% 15%; 
+    }
+    .product-table-view{
+        width:max-content;
+        min-width: 80vw;
+        margin: calc(20px + 8vh) 10vw 5% 10vw;
+    }
+    .product-description {
+        min-width: 40vw;
+    }
+    .product-list-item img {
+        width:30vw;
+        height:30vh;
+    }
+}
+
   .material-icons:hover {
     cursor: pointer;
   }
@@ -228,7 +246,42 @@ ul {
     width:60%;
   }
 
+  .product-table-view {
+    position:absolute;
+    margin:calc(20px + 8vh) 15% 5% 15%;
+    border:1px solid #d2adff;
+    box-shadow:1px 1px 1px 1px #f2f2f2;
+    width:60%;
+  }
+
+@media screen and (max-width: 400px) {
+    .admin-table-view{
+        width:max-content;
+        min-width: 80vw;
+        margin: calc(20px + 8vh) 10vw 5% 10vw;
+    }
+    table{
+        margin-right:20%;
+    }
+}
+
+@media screen and (max-height: 600px){
+    header{
+        min-height: 70px;
+    }
+    section {
+        top:71px;
+    }
+}
+
 .admin-table-header {
+    background-color: #333333;
+    color:white;
+    padding:2%;
+    text-align: center;
+}
+
+.product-table-header {
     background-color: #333333;
     color:white;
     padding:2%;

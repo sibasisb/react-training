@@ -5,8 +5,8 @@ import Pagination from './Pagination'
 
 const ProductCatalog=({userId,alert,products,currentProducts,displayProducts,productsPerPage,paginate,moveLeft,moveRight})=>{
     return (
-        <div className="admin-table-view">
-            <div className="admin-table-header">
+        <div className="product-table-view">
+            <div className="product-table-header">
                 Product Catalog
             </div>
             {
