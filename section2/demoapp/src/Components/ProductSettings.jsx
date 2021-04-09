@@ -4,6 +4,10 @@ import {Link, useHistory, useParams} from 'react-router-dom'
 import axios from 'axios'
 import { getHeader } from '../helpers/AuthHeader'
 import { useDispatch, useSelector } from 'react-redux'
+import Modal from 'react-modal'
+
+//set Modal on root element
+Modal.setAppElement('#root')
 
 //lazily load ProductCatalog component
 const MemoProductCatalog=lazy(()=>import('./ProductCatalog'))
@@ -17,6 +21,7 @@ const ProductSettings=()=>{
     // const [alert,setAlert]=useState(false)
     const [currentPage,setCurrentPage]=useState(1)
     const [productsPerPage,setProductsPerPage]=useState(1)
+    const [isModalOpen,setIsModalOpen]=useState(false)
     const {userId}=useParams()
     const history=useHistory()
     const dispatch=useDispatch()
@@ -63,9 +68,10 @@ const ProductSettings=()=>{
     const displayProducts=(currentProducts)=>{
         return currentProducts.map((product,index)=>{
             return (
+            <>
             <li key={index}>
                 <div className="product-list-item">
-                    <img src={`http://localhost:3001/${product.imageUrl}`} alt="Prod image" width={"200 vw"} height={"200 vh"}/>
+                    <img className="product-image" src={`http://localhost:3001/${product.imageUrl}`}  onClick={()=>setIsModalOpen(true)} alt="Prod image" width={"200 vw"} height={"200 vh"}/>
                     <div className="product-description">
                         <ul>
                             <li>Product {product.id}</li>
@@ -97,6 +103,50 @@ const ProductSettings=()=>{
                     </div>
                 </div>
             </li>
+            <Modal isOpen={isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={()=>{setIsModalOpen(false)}}
+            className="modal-content" overlayClassName="modal-overlay">
+            <div className="product-table-modal">
+            <div className="product-table-header">
+                Product Information
+            </div>
+            <div className="product-list-item">
+                    <img src={`http://localhost:3001/${product.imageUrl}`} alt="Prod image" width={"200 vw"} height={"200 vh"}/>
+                    <div className="product-description">
+                        <ul>
+                            <li>Product {product.id}</li>
+                            <li>
+                                {product.title}
+                            </li>
+                            <li className="product-description-field">
+                                {product.description}
+                            </li>
+                            <li>
+                                Price: &#x20B9; {product.price}
+                            </li>
+                            <li>
+                                Expriry Date: {product.expiryDate}
+                            </li>
+                            <li>
+                            {
+                                JSON.parse(localStorage.getItem("user")).role==="admin"?
+                                (
+                                    <div className="button-div">
+                                        <button onClick={()=>{updateProduct(product)}} className="update-button">Update  <span className="material-icons">mode_edit</span></button>
+                                        <button onClick={()=>{deleteProduct(product)}} className="delete-button">Delete  <span className="material-icons">delete_forever</span></button>
+                                    </div>
+                                ):
+                                ""    
+                            }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            <div>
+                <button className="close-button" onClick={()=>setIsModalOpen(false)}>Close</button>
+            </div>
+            </div>
+            </Modal>
+            </>
             )
         })
     }
