@@ -226,7 +226,7 @@ ul {
         margin: calc(20px + 8vh) 10vw 5% 10vw;
     }
     .product-description {
-        min-width: 40vw;
+        min-width: 45vw;
     }
     .product-list-item img {
         width:30vw;
@@ -359,7 +359,8 @@ th, td {
 }
 
 .product-description {
-    width: 20vw; 
+    width: 25vw; 
+    margin-top: 2%;
 }
 
 .catalog-button-container {
@@ -455,7 +456,7 @@ th, td {
 }
 
 .user-modal-image {
-    margin-top:1px;
+    margin-top:2%;
     width:20vw;
     height:30vh;
 }
