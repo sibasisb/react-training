@@ -59,6 +59,7 @@ const ProductSettings=()=>{
      */
     const deleteProduct=(product)=>{
         dispatch({type:"DELETE_PRODUCT_SAGA",payload:{product:product}})
+        setIsModalOpen(false)
     }
 
     /**

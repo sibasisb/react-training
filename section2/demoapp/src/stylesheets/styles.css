@@ -431,6 +431,20 @@ th, td {
     padding: 0;
 }
 
+.user-modal-content {
+    position: absolute;
+    top:10%;
+    left:25%;
+    right:25%;
+    height:55%;
+    border: 1px solid #ccc;
+    background: #fff;
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 0;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -438,4 +452,10 @@ th, td {
     right: 0;
     bottom: 0;
     background-color:grey;
+}
+
+.user-modal-image {
+    margin-top:1px;
+    width:20vw;
+    height:30vh;
 }
