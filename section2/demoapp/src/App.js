@@ -40,7 +40,9 @@ function App() {
     <ErrorBoundary>
     <Header/>
     </ErrorBoundary>
+    <ErrorBoundary>
     <Routing/>
+    </ErrorBoundary>
     <ErrorBoundary>
     <Footer/>
     </ErrorBoundary>
