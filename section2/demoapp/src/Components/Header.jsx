@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import '../stylesheets/styles.css'
 import { Link, useHistory } from 'react-router-dom';
 import store from "../store/store";
+import Sidebar from "./Sidebar";
 
 const Header=()=>{
     const [user,setUser]=useState(null)
+    const [isMenuOpen,setIsMenuOpen]=useState(false)
     const history=useHistory()
     
     useEffect(()=>{
@@ -23,10 +25,16 @@ const Header=()=>{
     }
     return (
         <header>
+            <Sidebar isMenuOpen={isMenuOpen} user={user} handleLogout={handleLogout} setIsMenuOpen={setIsMenuOpen}/>
             <div className="header-flex">
                 {
                 user?(
                 <div className="user-info">
+                    <div className="burger-icon-div">
+                    <span className="material-icons burger-icon" onClick={()=>{setIsMenuOpen(true)}}>
+                        menu
+                    </span>
+                    </div>
                     <div>
                         {
                             user.pic?
@@ -38,7 +46,6 @@ const Header=()=>{
                     </div>
                     <div className="user-name"><span>{user?.firstName?.charAt(0)?.toUpperCase() + user?.firstName?.slice(1)}</span></div>
                     <div className="user-name"><Link to={"/userSetting/"+user.userId}><span>Settings</span></Link></div>
-                    <div className="user-name"><button className="logout-button" onClick={()=>{handleLogout()}}>Logout</button></div>
                 </div>):
                 (<div className="user-info">
                 </div>)
