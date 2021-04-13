@@ -20,31 +20,11 @@ const AdminSettings = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-
-        // axios.get('http://localhost:3001/auth/users')
-        // .then(res=>{
-        //     setAlert(true)
-        //     let newUsers=res.data.users
-        //     newUsers=newUsers.filter(u=>u.userId!==userId)
-        //     setUsers(newUsers)
-        // })
-        // .catch(err=>console.log(err))
         dispatch({ type: "FETCH_USERS_SAGA", userId })
         setIsModalOpen(false)
     }, [dispatch])
 
     function onDelete(user) {
-        // axios.delete(`http://localhost:3001/auth/${user.userId}`,getHeader())
-        // .then(res=>{
-        //     if(res.status!==200){
-        //         return 
-        //     }
-        //     let newUsers=users.filter(u=>u.userId!==user.userId)
-        //     setUsers(newUsers)
-        // })
-        // .catch(err=>{
-        //     console.log(err)
-        // })
         dispatch({ type: "DELETE_USER_SAGA", user, userId })
         setIsModalOpen(false)
     }
