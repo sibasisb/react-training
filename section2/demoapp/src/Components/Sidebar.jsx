@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { memo } from 'react'
 import { createPortal } from 'react-dom/cjs/react-dom.development'
 import { Link } from 'react-router-dom'
 
@@ -19,7 +19,9 @@ const SidebarContent=({user,handleLogout,setIsMenuOpen})=>{
                             (<img style={{width:"80%",height:"80%", margin:"4% 2% 0% 8%"}}
                             src={user?user.pic:'Loading..'} alt="Profile"
                             />):
-                            (<span className="material-icons" style={{color: "white", fontSize: "3rem"}}>account_circle</span>)
+                            (<img style={{width:"80%",height:"80%", margin:"4% 2% 0% 8%"}}
+                            src={`https://th.bing.com/th/id/OIP.wKNft4u0YCq9Svzs7edYMQHaEq?pid=ImgDet&rs=1`} alt="Profile"
+                            />)
                         }
                     </div>
                     <div className="menu-user-name">
@@ -67,4 +69,6 @@ const Sidebar=({isMenuOpen,user,handleLogout,setIsMenuOpen})=>{
     )
 }
 
-export default Sidebar
+const SidebarMemo=memo(Sidebar)
+
+export default SidebarMemo

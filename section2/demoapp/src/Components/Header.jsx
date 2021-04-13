@@ -45,7 +45,7 @@ const Header=()=>{
                         }
                     </div>
                     <div className="user-name"><span>{user?.firstName?.charAt(0)?.toUpperCase() + user?.firstName?.slice(1)}</span></div>
-                    <div className="user-name"><Link to={"/userSetting/"+user.userId}><span>Settings</span></Link></div>
+                    {/* <div className="user-name"><Link to={"/userSetting/"+user.userId}><span>Settings</span></Link></div> */}
                 </div>):
                 (<div className="user-info">
                 </div>)
