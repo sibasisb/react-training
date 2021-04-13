@@ -71,24 +71,24 @@ const ProductSettings=()=>{
             return (
             <>
             <li key={index}>
-                <div className="product-list-item">
+                <div className="product-list-item" key={index}>
                     <img className="product-image" src={`http://localhost:3001/${product.imageUrl}`}  onClick={()=>setIsModalOpen(true)} alt="Prod image" width={"200 vw"} height={"200 vh"}/>
                     <div className="product-description">
                         <ul>
-                            <li>Product {product.id}</li>
-                            <li>
+                            <li key={"1"}>Product {product.id}</li>
+                            <li key={"2"}>
                                 {product.title}
                             </li>
-                            <li className="product-description-field">
+                            <li key={"3"} className="product-description-field">
                                 {product.description}
                             </li>
-                            <li>
+                            <li key={"4"}>
                                 Price: &#x20B9; {product.price}
                             </li>
-                            <li>
+                            <li key={"5"}>
                                 Expriry Date: {product.expiryDate}
                             </li>
-                            <li>
+                            <li key={"6"}>
                             {
                                 JSON.parse(localStorage.getItem("user")).role==="admin"?
                                 (
