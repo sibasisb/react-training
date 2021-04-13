@@ -523,3 +523,32 @@ th, td {
     display: flex;
     justify-content: flex-end;
 }
+
+.card-footer {
+    display: flex;
+    width:100%;
+    justify-content: center;
+    height: 500%;
+}
+
+.task-plus {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    background-color: #333333;
+    border-radius: 50%;
+    height: 50px;
+    width:50px;
+    color: #f2f2f2;
+}
+
+.task-plus span {
+    font-size: xx-large;
+}
+
+.task-plus:hover{
+    cursor: pointer;
+}
+
+.strike-through {
+    text-decoration: line-through;
+}

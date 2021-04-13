@@ -45,6 +45,15 @@ const SidebarContent=({user,handleLogout,setIsMenuOpen})=>{
                         </>):
                         ""
                     }
+                    {
+                        user.role==="user"?
+                        (<div className="menu-user-name">
+                        <Link onClick={()=>{setIsMenuOpen(false)}} to={`/todos/${user.userId}`}>
+                            <span>Todo List</span>
+                        </Link>
+                        </div>):
+                        ""
+                    }
                     <div className="menu-user-name"><Link onClick={()=>{setIsMenuOpen(false)}} to={"/userSetting/"+user?.userId}><span>Settings</span></Link></div>
                     <div className="menu-user-name"><button className="logout-button" onClick={()=>{
                         setIsMenuOpen(false);
