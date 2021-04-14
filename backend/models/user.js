@@ -49,7 +49,7 @@ module.exports=class User {
             return false
         users=users.map(u=>{
             if(u.userId===user.userId)
-                return {...u,firstName:user.firstName,lastName:user.lastName,dob:user.dob,password:user.password,pic:user.pic}
+                return {...u,firstName:user.firstName,lastName:user.lastName,dob:user.dob,password:user.password,pic:user.pic,todos:user.todos}
             return u
         })
         return true

@@ -47,3 +47,67 @@ exports.editProduct=(req,res)=>{
     res.status(201).json({product:product,message:process.env.SUCCESS_PRODUCT_UPDATE}):
     res.status(400).json({message:process.env.FAILURE_PRODUCT_UPDATE})
 }
+
+/**
+ * Allows user to add a task
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.addTask=(req,res)=>{
+    const usr=req.user
+    const {userId}=req.params
+    if(usr.userId!==userId){
+        return res.status(403).json({message:process.env.FAILURE_TASK_ADD_AUTHORIZATION})
+    }
+    const {title,description}=req.body
+    if(!title || !description){
+        return res.status(421).json({message:process.env.FAILURE_INVALID_TASK_FIELDS})
+    }
+    let user=User.findById(userId)
+    if(!user)
+        return res.status(404).json({message:process.env.FAILURE_USER_NOT_FOUND})
+    let todos=user.todos?user.todos:[]
+    let maxId=0
+    todos.forEach(todo=>maxId=todo.id>maxId?todo.id:maxId)
+    const todo={
+        id:maxId+1,
+        title,
+        description
+    }
+    let success=User.updateUser({...user,todos:[...todos,todo]})
+    return success?
+    res.status(200).json({message:process.env.SUCCESS_TASK_ADD}):
+    res.status(403).json({message:process.env.FAILURE_TASK_ADD})
+}
+
+/**
+ * Allows user to update a task
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ exports.updateTask=(req,res)=>{
+    const usr=req.user
+    const {userId}=req.params
+    if(usr.userId!==userId){
+        return res.status(403).json({message:process.env.FAILURE_TASK_UPDATE_AUTHORIZATION})
+    }
+    const {id,title,description}=req.body
+    if(!id || !title || !description){
+        return res.status(421).json({message:process.env.FAILURE_INVALID_TASK_FIELDS})
+    }
+    let user=User.findById(userId)
+    if(!user)
+        return res.status(404).json({message:process.env.FAILURE_USER_NOT_FOUND})
+    let todos=user.todos?user.todos:[]
+    todos=todos.map(todo=>{
+        return todo.id===id?
+        {id,title,description,unchecked:req.body.unchecked}:
+        todo
+    })
+    let success=User.updateUser({...user,todos:todos})
+    return success?
+    res.status(200).json({message:process.env.SUCCESS_TASK_UPDATE}):
+    res.status(403).json({message:process.env.FAILURE_TASK_UPDATE})
+}

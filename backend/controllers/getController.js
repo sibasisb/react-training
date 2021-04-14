@@ -23,7 +23,7 @@ exports.findUserById=(req,res)=>{
     const {userId}=req.params
     let user=User.findById(userId)
     return user?
-    res.status(200).json({user:{userId:user.userId,email:user.email,pic:user.pic,firstName:user.firstName,lastName:user.lastName,dob:user.dob,role:user.role},message:process.env.SUCCESS_USER_FOUND}):
+    res.status(200).json({user:{userId:user.userId,email:user.email,pic:user.pic,firstName:user.firstName,lastName:user.lastName,dob:user.dob,role:user.role,todos:user.todos},message:process.env.SUCCESS_USER_FOUND}):
     res.status(404).json({message:process.env.FAILURE_USER_NOT_FOUND})
 }
 

@@ -6,6 +6,7 @@ const {v4: uuidv4 }=require('uuid')
 
 const authRouter=require('./routes/auth')
 const productRouter=require('./routes/products')
+const taskRouter=require('./routes/tasks')
 const errorController=require('./controllers/error')
 
 const PORT=process.env.port || 3001
@@ -37,7 +38,7 @@ app.use('/images',express.static(path.join(__dirname,'images')))
 
 app.use('/auth',authRouter)
 app.use('/products',productRouter)
-
+app.use('/tasks',taskRouter)
 app.use(errorController.getError)
 
 app.listen(PORT,()=>{

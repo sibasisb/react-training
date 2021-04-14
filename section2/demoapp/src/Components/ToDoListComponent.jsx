@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React from 'react'
 import ReactModal from 'react-modal';
+import { getHeader } from '../helpers/AuthHeader';
 import AddTask from './AddTask';
 
 //set Modal on root app element
@@ -17,6 +19,7 @@ class ToDoListComponent extends React.Component {
         this.handleStrike=this.handleStrike.bind(this)
         this.handleSearch=this.handleSearch.bind(this)
         this.handleSearchChange=this.handleSearchChange.bind(this)
+        this.handleModalStateChange=this.handleModalStateChange.bind(this)
     }
 
     componentDidMount() {
@@ -26,24 +29,34 @@ class ToDoListComponent extends React.Component {
             this.props.history.push('/unauthorized')
             return
         }
-        let fetchedTodos=[
-            {
-                id: 1,
-                title: "Lunch",
-                description: "Eat well"
-            },
-            {
-                id: 2,
-                title: "Exercise",
-                description: "Run for 10 miles"
-            },
-            {
-                id: 3,
-                title: "Check blood sugar",
-                description: "Gotta check my blood sugar level"
+        let fetchedTodos=[]
+        axios.get(`http://localhost:3001/auth/getUser/${userId}`,getHeader())
+        .then(res=>{
+            console.log(res.data)
+            if(res.status===200){
+                fetchedTodos=res.data.user.todos
+                this.setState({todos:fetchedTodos})
             }
-        ]
-        this.setState({todos:fetchedTodos})
+        })
+        .catch(err=>console.log(err))
+
+        // fetchedTodos=[
+        //     {
+        //         id: 1,
+        //         title: "Lunch",
+        //         description: "Eat well"
+        //     },
+        //     {
+        //         id: 2,
+        //         title: "Exercise",
+        //         description: "Run for 10 miles"
+        //     },
+        //     {
+        //         id: 3,
+        //         title: "Check blood sugar",
+        //         description: "Gotta check my blood sugar level"
+        //     }
+        // ]
     }
 
     displayTodos() {
@@ -76,15 +89,41 @@ class ToDoListComponent extends React.Component {
         this.setState({
             todos:updatedTodos
         })
+        const newTodo=updatedTodos.find(todo=>todo.id===todoDeleted)
+        axios.put(`http://localhost:3001/tasks/updateTask/${this.props.match.params.userId}`,newTodo,getHeader())
+        .then(res=>{
+            if(res.status===200){
+                //task completed
+            }
+        })  
+        .catch(err=>{
+            console.log(err)
+        })
     }
 
     handleSearch(e){
         e.preventDefault()
-
     }
 
     handleSearchChange(e){
         this.setState({search:e.target.value})
+    }
+
+    handleModalStateChange(){
+        let fetchedTodos=[]
+        const { userId } = this.props.match.params
+        axios.get(`http://localhost:3001/auth/getUser/${userId}`,getHeader())
+        .then(res=>{
+            console.log(res.data)
+            if(res.status===200){
+                fetchedTodos=res.data.user.todos
+                this.setState({todos:fetchedTodos})
+            }
+        })
+        .catch(err=>console.log(err))
+        this.setState({
+            isModalOpen:!this.state.isModalOpen
+        })
     }
 
     render() {
@@ -117,7 +156,7 @@ class ToDoListComponent extends React.Component {
                     <ReactModal isOpen={this.state.isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={()=>{
                         this.setState({isModalOpen:false})
                     }} className="user-modal-content" overlayClassName="modal-overlay">
-                        <AddTask/>
+                        <AddTask userId={this.props.match.params.userId} handleModalStateChange={this.handleModalStateChange} />
                     </ReactModal>
                     <div className="card-footer">
                         <button className="task-plus" onClick={()=>{
