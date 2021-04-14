@@ -70,6 +70,9 @@ class ToDoListComponent extends React.Component {
     render() {
         return (
             <section>
+                <div className="search-container">
+                    <input type="text" placeholder="Search" className="search-bar" />
+                </div>
                 <div className="card">
                     <div className="card-header">
                         Your Todo List

@@ -552,3 +552,23 @@ th, td {
 .strike-through {
     text-decoration: line-through;
 }
+
+.search-container {
+    width:100%;
+    margin-top: 3%;
+    height: 8%;
+}
+
+.search-bar {
+    width:40%;
+    margin:0% 25%;
+    min-width: 100px;
+    height: 100%;
+    color:#f2f2f2;
+    background-color: #333333;
+    background-image: url('../icon/baseline_search_white_24dp.png');
+    background-repeat: no-repeat;
+    background-position: 2% 40%; 
+    padding-left: 10%;
+}
+
