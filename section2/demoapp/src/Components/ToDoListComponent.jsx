@@ -1,13 +1,22 @@
 import React from 'react'
+import ReactModal from 'react-modal';
+import AddTask from './AddTask';
+
+//set Modal on root app element
+ReactModal.setAppElement('#root')
 
 class ToDoListComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            todos:undefined
+            todos:undefined,
+            search:"",
+            isModalOpen:false
         }
         this.displayTodos = this.displayTodos.bind(this)
         this.handleStrike=this.handleStrike.bind(this)
+        this.handleSearch=this.handleSearch.bind(this)
+        this.handleSearchChange=this.handleSearchChange.bind(this)
     }
 
     componentDidMount() {
@@ -38,20 +47,22 @@ class ToDoListComponent extends React.Component {
     }
 
     displayTodos() {
-        if(this.state.todos)
-        return this.state.todos.map((todo, index) => {
-            return (
-                <li key={index}>
-                    {
-                        todo.unchecked?
-                        (<strike className="strike-through">
-                            <input type="checkbox" checked={true} disabled/>{todo.title}
-                        </strike>):
-                        (<><input type="checkbox" value={todo.id} onChange={(e)=>{this.handleStrike(e)}} />{todo.title}</>)                       
-                    }
-                </li>
-            )
-        })
+        if(this.state.todos){
+            let todosToShow=this.state.todos.filter(todo=>todo.title.toLowerCase().startsWith(this.state.search.toLowerCase()))
+            return todosToShow.map((todo, index) => {
+                return (
+                    <li key={index}>
+                        {
+                            todo.unchecked?
+                            (<strike className="strike-through">
+                                <input type="checkbox" checked={true} disabled/>{todo.title}
+                            </strike>):
+                            (<><input type="checkbox" value={todo.id} onChange={(e)=>{this.handleStrike(e)}} />{todo.title}</>)                       
+                        }
+                    </li>
+                )
+            })
+        }
     }
 
     handleStrike(e){
@@ -67,12 +78,21 @@ class ToDoListComponent extends React.Component {
         })
     }
 
+    handleSearch(e){
+        e.preventDefault()
+
+    }
+
+    handleSearchChange(e){
+        this.setState({search:e.target.value})
+    }
+
     render() {
         return (
             <section>
-                <div className="search-container">
-                    <input type="text" placeholder="Search" className="search-bar" />
-                </div>
+                <form onSubmit={this.handleSearch} className="search-container">
+                    <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder="Search" className="search-bar" />
+                </form>
                 <div className="card">
                     <div className="card-header">
                         Your Todo List
@@ -94,8 +114,15 @@ class ToDoListComponent extends React.Component {
                             </ul>
                         )    
                     }
+                    <ReactModal isOpen={this.state.isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={()=>{
+                        this.setState({isModalOpen:false})
+                    }} className="user-modal-content" overlayClassName="modal-overlay">
+                        <AddTask/>
+                    </ReactModal>
                     <div className="card-footer">
-                        <button className="task-plus">
+                        <button className="task-plus" onClick={()=>{
+                            this.setState({isModalOpen:true})
+                        }}>
                             <span>+</span>
                         </button>
                     </div>

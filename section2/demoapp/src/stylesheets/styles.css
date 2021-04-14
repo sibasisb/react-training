@@ -572,3 +572,28 @@ th, td {
     padding-left: 10%;
 }
 
+.task-form {
+    padding: 0% 2%;
+}
+
+.add-task-button {
+    background-color: #5cb85c;
+    color: #f2f2f2;
+    padding:1%;
+    width:30%;
+}
+
+.reset-task-button {
+    background-color: #ff3333;
+    color:#f2f2f2;
+    padding:1%;
+    width:30%;
+}
+
+.add-task-button:hover{
+    cursor: pointer;
+}
+
+.reset-task-button:hover {
+    cursor: pointer;
+}
