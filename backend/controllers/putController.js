@@ -17,13 +17,13 @@ exports.updateUser=(req,res)=>{
         console.log("Not admin and not current  user");
         return res.status(403).json({message:process.env.FAILURE_ACCOUNT_UPDATE_AUTHORIZATION})
     }
-    const {firstName,lastName,password,dob,pic}=req.body
+    const {firstName,lastName,password,dob,pic,todos}=req.body
     if(!password || password.length<4 || !firstName || !dob){
         return res.status(403).json({message:process.env.FAILURE_ACCOUNT_UPDATE_INVALID_INPUT})
     }
     bcrypt.hash(password,12)
     .then(hashed=>{
-        let success=User.updateUser({userId,firstName,lastName,dob,password:hashed,pic})
+        let success=User.updateUser({userId,firstName,lastName,dob,password:hashed,pic,todos})
         return success?
         res.status(200).json({user:{userId,firstName,lastName,dob,pic},message:process.env.SUCCESS_ACCOUNT_UPDATE}):
         res.status(403).json({message:process.env.FAILURE_ACCOUNT_UPDATE}) 
