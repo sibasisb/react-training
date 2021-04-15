@@ -25,8 +25,8 @@ exports.signIn=(req,res)=>{
     .then(doesmatch=>{
         if(doesmatch){
             const token=jwt.sign({_id:user.userId},KEY)
-            const {userId,email,firstName,lastName,dob,role,pic}=user
-            return res.status(200).json({token,user:{userId,email,firstName,lastName,dob,role,pic},message:process.env.SUCCESS_SIGNIN})
+            const {userId,email,firstName,lastName,dob,role,pic,todos}=user
+            return res.status(200).json({token,user:{userId,email,firstName,lastName,dob,role,pic,todos},message:process.env.SUCCESS_SIGNIN})
         }
         return res.status(422).json({message:process.env.FAILURE_INVALID_INPUT})
     })

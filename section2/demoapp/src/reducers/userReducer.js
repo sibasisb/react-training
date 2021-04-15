@@ -2,7 +2,8 @@ export const initialState={
     user:localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null,
     token:localStorage.getItem("token")?localStorage.getItem("token"):null,
     usersList:undefined,
-    productsList:undefined
+    productsList:undefined,
+    currentUserTodos:undefined
 }
 
 export const userReducer=(state,action)=>{
@@ -36,6 +37,16 @@ export const userReducer=(state,action)=>{
             return {
                 ...state,
                 productsList:action.payload.productsList
+            }
+        case "FETCH_USER_TODOS":
+            return {
+                ...state,
+                currentUserTodos:action.payload.currentUserTodos
+            }
+        case "UPDATE_USER_TODOS":
+            return {
+                ...state,
+                currentUserTodos:action.payload.currentUserTodos
             }
         default: return state;
     }

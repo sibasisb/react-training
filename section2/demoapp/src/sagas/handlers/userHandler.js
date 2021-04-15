@@ -1,5 +1,5 @@
 import {put, call} from 'redux-saga/effects'
-import { deleteUser, fetchUsers } from "../requests/users";
+import { deleteUser, fetchUsers, fetchUserTodos } from "../requests/users";
 
 export function* handleFetchUsers(action){
     try{
@@ -28,6 +28,28 @@ export function* handleDeleteUser(action){
                 yield put({type:"FETCH_USERS",payload:{usersList:newUsers}})
             }
         }
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+export function* handleFetchCurrentUserTodos(action){
+    try{
+        let response=yield call(fetchUserTodos,action)
+        if(response.status===200){
+            let todos=response.data.user.todos
+            yield put({type:"FETCH_USER_TODOS",payload:{currentUserTodos:todos}})
+        }
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+export function* handleUpdateCurrentUserTodos(action){
+    try{
+        yield put({type:"UPDATE_USER_TODOS",payload:action.payload})
     }
     catch(error){
         console.log(error);

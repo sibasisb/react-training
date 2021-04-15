@@ -8,3 +8,7 @@ export const fetchUsers=()=>{
 export const deleteUser=(action)=>{
     return axios.delete(`http://localhost:3001/auth/${action.user.userId}`,getHeader())
 }
+
+export const fetchUserTodos=(action)=>{
+    return axios.get(`http://localhost:3001/auth/getUser/${action.payload.userId}`,getHeader())
+}

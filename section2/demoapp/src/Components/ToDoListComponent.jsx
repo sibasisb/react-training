@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import ReactModal from 'react-modal';
+import { connect } from 'react-redux';
 import { getHeader } from '../helpers/AuthHeader';
 import AddTask from './AddTask';
 
@@ -30,33 +31,17 @@ class ToDoListComponent extends React.Component {
             return
         }
         let fetchedTodos=[]
-        axios.get(`http://localhost:3001/auth/getUser/${userId}`,getHeader())
-        .then(res=>{
-            console.log(res.data)
-            if(res.status===200){
-                fetchedTodos=res.data.user.todos
-                this.setState({todos:fetchedTodos})
-            }
+        this.props.dispatch({type:"FETCH_USER_TODOS_SAGA",payload:{userId:userId}})
+        this.setState({
+            todos:x.todos
         })
-        .catch(err=>console.log(err))
+    }
 
-        // fetchedTodos=[
-        //     {
-        //         id: 1,
-        //         title: "Lunch",
-        //         description: "Eat well"
-        //     },
-        //     {
-        //         id: 2,
-        //         title: "Exercise",
-        //         description: "Run for 10 miles"
-        //     },
-        //     {
-        //         id: 3,
-        //         title: "Check blood sugar",
-        //         description: "Gotta check my blood sugar level"
-        //     }
-        // ]
+    static getDerivedStateFromProps(props){
+        console.log(props);
+        return {
+            todos:props.todos || []
+        }
     }
 
     displayTodos() {
@@ -86,14 +71,12 @@ class ToDoListComponent extends React.Component {
             {...todo,
             unchecked:true}
         })
-        this.setState({
-            todos:updatedTodos
-        })
+        this.props.dispatch({type:"UPDATE_USER_TODOS_SAGA",payload:{currentUserTodos:updatedTodos}})
         const newTodo=updatedTodos.find(todo=>todo.id===todoDeleted)
         axios.put(`http://localhost:3001/tasks/updateTask/${this.props.match.params.userId}`,newTodo,getHeader())
         .then(res=>{
             if(res.status===200){
-                //task completed
+                //response arrived
             }
         })  
         .catch(err=>{
@@ -112,15 +95,7 @@ class ToDoListComponent extends React.Component {
     handleModalStateChange(){
         let fetchedTodos=[]
         const { userId } = this.props.match.params
-        axios.get(`http://localhost:3001/auth/getUser/${userId}`,getHeader())
-        .then(res=>{
-            console.log(res.data)
-            if(res.status===200){
-                fetchedTodos=res.data.user.todos
-                this.setState({todos:fetchedTodos})
-            }
-        })
-        .catch(err=>console.log(err))
+        this.props.dispatch({type:"FETCH_USER_TODOS_SAGA",payload:{userId:userId}})
         this.setState({
             isModalOpen:!this.state.isModalOpen
         })
@@ -171,4 +146,10 @@ class ToDoListComponent extends React.Component {
     }
 }
 
-export default ToDoListComponent
+function mapStateToProps(state){
+    return {
+        todos:state.currentUserTodos
+    }
+}
+
+export default connect(mapStateToProps)(ToDoListComponent)
