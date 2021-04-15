@@ -38,7 +38,6 @@ class ToDoListComponent extends React.Component {
     }
 
     static getDerivedStateFromProps(props){
-        console.log(props);
         return {
             todos:props.todos || []
         }
