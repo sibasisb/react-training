@@ -64,7 +64,7 @@ const HomeWithoutMemo = (props) => {
     }
 
     return (
-        <div>
+        <div id="home">
             <section>
                 {
                     useMemo(() => {

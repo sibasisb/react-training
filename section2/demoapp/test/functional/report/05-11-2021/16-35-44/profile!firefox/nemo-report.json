@@ -1,0 +1,181 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-05-11T11:05:45.781Z",
+    "end": "2021-05-11T11:05:56.479Z",
+    "duration": 10698,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "819ceadf-734b-4556-ab4f-5e22b41d0b85",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [
+        {
+          "title": "\"before all\" hook",
+          "fullTitle": "\"before all\" hook",
+          "timedOut": false,
+          "duration": 6,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "if (Suite.tests.length > 0) {\n  return createNemo()\n    .then(bindNemo.bind(this));\n}\nreturn;",
+          "err": {},
+          "uuid": "951c742e-6cc5-4159-b3dd-0105a065f940",
+          "parentUUID": "819ceadf-734b-4556-ab4f-5e22b41d0b85",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "afterHooks": [
+        {
+          "title": "\"after all\" hook: destroyNemo",
+          "fullTitle": "\"after all\" hook: destroyNemo",
+          "timedOut": false,
+          "duration": 0,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "log('destroyNemo: called');\nif (this.nemo) {\n  if (this.nemo.driver) {\n    log('Quitting nemo driver instance');\n    return this.nemo.driver.quit()\n      .then(function () {\n        log('destroyNemo: Quit driver');\n        return Promise.resolve();\n      });\n  }\n  log('Nemo instance does not have a driver to quit');\n}",
+          "err": {},
+          "uuid": "11a58fde-776e-4fc9-9f16-896f95633651",
+          "parentUUID": "819ceadf-734b-4556-ab4f-5e22b41d0b85",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "133cb179-a297-4722-8fb6-d83d01f05827",
+          "title": "@firstTest@",
+          "fullFile": "C:\\Users\\sibas\\OneDrive\\Desktop\\cts paypal training\\section2\\demoapp\\test\\functional\\nemo.test.js",
+          "file": "\\test\\functional\\nemo.test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook",
+              "fullTitle": "@firstTest@ \"before all\" hook",
+              "timedOut": false,
+              "duration": 5560,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (Suite.tests.length > 0) {\n  return createNemo()\n    .then(bindNemo.bind(this));\n}\nreturn;",
+              "err": {},
+              "uuid": "ba049304-317f-4cfa-afcd-50711fd7d4ac",
+              "parentUUID": "133cb179-a297-4722-8fb6-d83d01f05827",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook: destroyNemo",
+              "fullTitle": "@firstTest@ \"after all\" hook: destroyNemo",
+              "timedOut": false,
+              "duration": 232,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "log('destroyNemo: called');\nif (this.nemo) {\n  if (this.nemo.driver) {\n    log('Quitting nemo driver instance');\n    return this.nemo.driver.quit()\n      .then(function () {\n        log('destroyNemo: Quit driver');\n        return Promise.resolve();\n      });\n  }\n  log('Nemo instance does not have a driver to quit');\n}",
+              "err": {},
+              "uuid": "44b652b2-14a1-46a5-ba4a-e0780731d8e3",
+              "parentUUID": "133cb179-a297-4722-8fb6-d83d01f05827",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "should load a website",
+              "fullTitle": "@firstTest@ should load a website",
+              "timedOut": false,
+              "duration": 4863,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await this.nemo.driver.get(this.nemo.data.baseUrl);",
+              "err": {},
+              "uuid": "25f0a6d2-dd02-41d1-8f8e-a9b82ad617bc",
+              "parentUUID": "133cb179-a297-4722-8fb6-d83d01f05827",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "25f0a6d2-dd02-41d1-8f8e-a9b82ad617bc"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 4863,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 180000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 180000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": true,
+        "reportFilename": "nemo-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "5.0.0"
+    },
+    "marge": {
+      "options": {
+        "quiet": true,
+        "reportDir": "C:\\Users\\sibas\\OneDrive\\Desktop\\cts paypal training\\section2\\demoapp\\test\\functional\\report/05-11-2021/16-35-44/profile!firefox",
+        "reportFilename": "nemo-report",
+        "assetsDir": "C:\\Users\\sibas\\OneDrive\\Desktop\\cts paypal training\\section2\\demoapp\\test\\functional\\report/mochawesomeAssets"
+      },
+      "version": "4.1.0"
+    }
+  }
+}

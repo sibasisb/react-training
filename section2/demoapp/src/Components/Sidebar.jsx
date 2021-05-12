@@ -55,7 +55,7 @@ const SidebarContent=({user,handleLogout,setIsMenuOpen})=>{
                         ""
                     }
                     <div className="menu-user-name"><Link onClick={()=>{setIsMenuOpen(false)}} to={"/userSetting/"+user?.userId}><span>Settings</span></Link></div>
-                    <div className="menu-user-name"><button className="logout-button" onClick={()=>{
+                    <div className="menu-user-name"><button id="logout" className="logout-button" onClick={()=>{
                         setIsMenuOpen(false);
                         handleLogout();
                     }}>Logout</button></div>

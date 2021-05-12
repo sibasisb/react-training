@@ -31,7 +31,7 @@ const Header=()=>{
                 user?(
                 <div className="user-info">
                     <div className="burger-icon-div">
-                    <span className="material-icons burger-icon" onClick={()=>{setIsMenuOpen(true)}}>
+                    <span id="menu" className="material-icons burger-icon" onClick={()=>{setIsMenuOpen(true)}}>
                         menu
                     </span>
                     </div>

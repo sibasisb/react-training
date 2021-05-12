@@ -1,0 +1,35 @@
+{
+	"totals": {
+		"total": 6,
+		"pass": 6,
+		"fail": 0
+	},
+	"instances": [
+		{
+			"tags": {
+				"profile": "firefox",
+				"reportFile": "/05-11-2021/17-30-49/profile!firefox/nemo-report.html",
+				"uid": "5abf5e9a-a6e8-4dfe-845a-f03c67d65aaa"
+			},
+			"duration": 12111,
+			"summary": {
+				"total": 3,
+				"pass": 3,
+				"fail": 0
+			}
+		},
+		{
+			"tags": {
+				"profile": "chrome",
+				"reportFile": "/05-11-2021/17-30-49/profile!chrome/nemo-report.html",
+				"uid": "f319bbd2-842e-428b-9d28-db11be7a6ad6"
+			},
+			"duration": 12283,
+			"summary": {
+				"total": 3,
+				"pass": 3,
+				"fail": 0
+			}
+		}
+	]
+}

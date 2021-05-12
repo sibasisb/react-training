@@ -66,18 +66,18 @@ const LoginComponent=({history})=>{
             <form className="myform" onSubmit={handleSubmit}>
                 <div className="input-div">
                 <label htmlFor="email">Email</label><br/>
-                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="email" placeholder="Email" value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
+                <input id="email" style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="text" name="email" placeholder="Email" value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
                 </div>
                 <div className="input-div">
                 <label htmlFor="password">Password</label><br/>
-                <input style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="password" name="password" placeholder="Password" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
+                <input id="password" style={{width:"100%",marginTop:"1px",lineHeight:"2"}} type="password" name="password" placeholder="Password" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
                 </div>
                 {
                     (email==="" || password==="")?
                     (""):
                     (<div className="button-div">
-                        <input type="submit" className="login-button" value="Login" />
-                        <input type="button" className="reset-button" value="Reset" onClick={()=>{onReset()}}/>
+                        <input id="login" type="submit" className="login-button" value="Login" />
+                        <input id="reset" type="button" className="reset-button" value="Reset" onClick={()=>{onReset()}}/>
                     </div>)
                 }
             </form>
